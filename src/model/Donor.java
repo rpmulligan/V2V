@@ -17,13 +17,24 @@ import org.joda.time.Years;
 @Entity
 @Table(name="Donor")
 public class Donor {
-	@Id
+
+  @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long donorId;
+
+  @Column(unique=true, length=30)
 	private String donorNumber;
+
+  @Column(length=30)
 	private String firstName;
+
+  @Column(length=30)
 	private String lastName;
+
+  @Column(length=30)
 	private String gender;
+
+  
 	private String bloodType;
 	private Date birthDate;
 	private Integer age;

@@ -1,95 +1,169 @@
 package model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
-	private String username;
-	private String password;
-	private String type;
-	private String name;
-	private String contactNumber;
-	private String emailId;
-	private String comments;
+@Table(name = "User")
+public class User implements TimeStamped {
 
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	private Boolean isDeleted;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(nullable=false)
+  private Long id;
 
-	public User(String username, String password, String type, String name,
-			String contactNumber, String emailId, Boolean isDeleted,
-			String comments) {
-		this.username = username;
-		this.password = password;
-		this.type = type;
-		this.name = name;
-		this.contactNumber = contactNumber;
-		this.emailId = emailId;
-		this.isDeleted = isDeleted;
-		this.comments = comments;
-	}
+  @Column(length=30, unique=true, nullable=false)
+  private String username;
 
-	public String getComments() {
-		return comments;
-	}
+  @Column(length=255, nullable=false)
+  private String password;
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+  @Column(length=30, nullable=false)
+  private String firstName;
+  @Column(length=30)
+  private String middleName;
+  @Column(length=30)
+  private String lastName;
 
-	public User() {
-	}
+  @Column(length=255)
+  private String emailId;
 
-	public void copy(User otherUser) {
-		this.username = otherUser.username;
-		this.password = otherUser.password;
-		this.type = otherUser.type;
-		this.name = otherUser.name;
-		this.contactNumber = otherUser.contactNumber;
-		this.emailId = otherUser.emailId;
-		this.isDeleted = otherUser.isDeleted;
-	}
+  private Boolean isStaff;
+  private Boolean isActive;
+  private Boolean isAdmin;
 
-	public String getPassword() {
-		return password;
-	}
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastUpdated;
 
-	public String getType() {
-		return type;
-	}
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDate;
 
-	public Long getUserId() {
-		return userId;
-	}
+  @Lob
+  private String comments;
 
-	public String getUsername() {
-		return username;
-	}
+  private Boolean isDeleted;
 
-	public String getName() {
-		return name;
-	}
+  public User() {
+  }
 
-	public String getContactNumber() {
-		return contactNumber;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getEmailId() {
-		return emailId;
-	}
+  public String getUsername() {
+    return username;
+  }
 
-	public Boolean getDeleted() {
-		return isDeleted;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getMiddleName() {
+    return middleName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public String getEmailId() {
+    return emailId;
+  }
+
+  public Boolean getIsStaff() {
+    return isStaff;
+  }
+
+  public Boolean getIsActive() {
+    return isActive;
+  }
+
+  public Boolean getIsAdmin() {
+    return isAdmin;
+  }
+
+  public Date getLastUpdated() {
+    return lastUpdated;
+  }
+
+  public Date getCreatedDate() {
+    return createdDate;
+  }
+
+  public String getComments() {
+    return comments;
+  }
+
+  public Boolean getIsDeleted() {
+    return isDeleted;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public void setEmailId(String emailId) {
+    this.emailId = emailId;
+  }
+
+  public void setIsStaff(Boolean isStaff) {
+    this.isStaff = isStaff;
+  }
+
+  public void setIsActive(Boolean isActive) {
+    this.isActive = isActive;
+  }
+
+  public void setIsSuperuser(Boolean isAdmin) {
+    this.isAdmin = isAdmin;
+  }
+
+  public void setLastUpdated(Date lastUpdated) {
+    this.lastUpdated = lastUpdated;
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public void setComments(String comments) {
+    this.comments = comments;
+  }
+
+  public void setIsDeleted(Boolean isDeleted) {
+    this.isDeleted = isDeleted;
+  }
 }

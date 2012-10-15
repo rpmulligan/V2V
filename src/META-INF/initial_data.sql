@@ -1,4 +1,4 @@
-insert into User (userId,username,password,name,type,contactNumber,emailId,isDeleted,comments) values  (1,'admin','admin321123','admin','admin','','',0, 'User with Administrative Privileges');
+insert into User (id,username,password,firstname,isAdmin,isStaff,isActive,isDeleted) values  (1,'admin','admin321123','admin',1,1,1,0);
 insert into ReportConfig (reportType,fieldNames) values('collection','collectionNo,center,site,dateCollected,sampleNo,shippingNo,donorNo,donorType,bloodGroup,rhd,comments');
 insert into ReportConfig (reportType,fieldNames) values('product','productNo,collectionNo,dateCollected,productType,comments');
 insert into ReportConfig (reportType,fieldNames) values('testResults','hiv,bloodGroup,collectionNo,dateTested,dateCollected,hbv,hcv,syphilis,comments');

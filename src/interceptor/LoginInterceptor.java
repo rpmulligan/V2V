@@ -35,7 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	private boolean checkForAdmin(String url, User user)
 			throws ModelAndViewDefiningException {
 		if (url.startsWith("/admin-")) {
-			if (user.getType().equals("admin")) {
+			if (user.getIsAdmin()) {
 				return true;
 			} else {
 				ModelAndView modelAndView = new ModelAndView("adminAccessOnly");

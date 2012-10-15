@@ -23,13 +23,6 @@ public class UserRepository {
 		em.flush();
 	}
 
-	public void updateUser(User user) {
-		User existingUser = findUser(user.getUsername());
-		existingUser.copy(user);
-		em.merge(existingUser);
-		em.flush();
-	}
-
 	public void deleteUser(String username) {
 		User existingUser = findUser(username);
 		existingUser.setIsDeleted(Boolean.TRUE);
