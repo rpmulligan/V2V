@@ -2,10 +2,12 @@ package model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateMidnight;
@@ -13,6 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Years;
 
 @Entity
+@Table(name="Donor")
 public class Donor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,10 +89,12 @@ public class Donor {
 		return comments;
 	}
 
+	@Column
 	public Long getDonorId() {
 		return donorId;
 	}
 
+	@Column
 	public String getDonorNumber() {
 		return donorNumber;
 	}

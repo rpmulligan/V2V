@@ -1,0 +1,17 @@
+insert into User values(1,'admin','admin321123','admin','admin','','',0, 'User with Administrative Privileges');
+insert into ReportConfig values('collection','collectionNo,center,site,dateCollected,sampleNo,shippingNo,donorNo,donorType,bloodGroup,rhd,comments');
+insert into ReportConfig values('product','productNo,collectionNo,dateCollected,productType,comments');
+insert into ReportConfig values('testResults','hiv,bloodGroup,collectionNo,dateTested,dateCollected,hbv,hcv,syphilis,comments');
+insert into DisplayNames values('collection','collectionNo:,center:,site:,dateCollected:,sampleNo:,shippingNo:,donorNo:,donorType:,bloodGroup:,rhd:,tips:,comments:Comments');
+insert into DisplayNames values('donor','donorID:,firstName:,lastName:,gender:,bloodType:,dob:,address:,age:,tips:,comments:Comments');
+insert into DisplayNames values('testResults','collectionNo:,dateCollected:,dateTested:,hiv:,hbv:,hcv:,syphilis:,abo:,rhd:,bloodGroup:,tips:,comments:Comments');
+insert into DisplayNames values('product','productNo:,collectionNo:,dateCollected:,productType:,bloodGroup:,tips:,comments:Comments');
+insert into DisplayNames values('request','requestNo:,requestDate:,requiredDate:,site:,productType:,abo:,rhd:,bloodGroup:,quantity:,status:,tips:,comments:Comments');
+insert into DisplayNames values('issue','issueDate:,issue:,issueTips:,comments:Comments');
+insert into DisplayNames values('usage','productNo:,usageDate:,hospital:,ward:,useIndication:,tips:,comments:Comments');
+insert into DisplayNames values('reports','inventorySummaryTips:,inventoryDetailsTips:,collectionsTips:,testResultsTips:,productsTips:,comments:Comments');
+insert into RecordFieldsConfig values('collection','center,site,sampleNo,shippingNo,donorNo,donorType,bloodGroup,rhd,comments');
+insert into RecordFieldsConfig values('donor','firstName,lastName,gender,bloodType,dateOfBirth,age,address,comments');
+insert into RecordFieldsConfig values('request','requestDate,requiredDate,comments');
+insert into RecordFieldsConfig values('usage','usageDate,hospital,ward,comments');
+insert into RecordFieldsConfig values ('testResult', 'collectionNumber,dateTested,hiv,hbv,hcv,syphilis');

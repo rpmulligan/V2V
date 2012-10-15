@@ -102,10 +102,12 @@ public class CollectionsController {
     Map<String, Object> m = model.asMap();
     List<String> centers = locationRepository.getAllCentersAsString();
     m.put("centers", centers);
-    m.put("selectedCenter", centers.get(0));
+    if (centers != null && centers.size() > 0)
+      m.put("selectedCenter", centers.get(0));
     List<String> sites = locationRepository.getAllCollectionSitesAsString();
     m.put("sites", sites);
-    m.put("selectedSite", sites.get(0));
+    if (sites != null && sites.size() > 0)
+      m.put("selectedSite", sites.get(0));
     m.put("isDialog", isDialog);
 
     if (collectionNumber != null) {
@@ -315,7 +317,7 @@ public class CollectionsController {
     m.put("errMsg", errMsg);
     return m;
   }
-  
+
   private Long getParam(Map<String, String> params, String paramName) {
     String paramValue = params.get(paramName);
     return paramValue == null || paramValue.isEmpty() ? null : Long
