@@ -38,7 +38,6 @@ public class DonorRepository {
       return donor;
     }
     existingDonor.copy(donor);
-    existingDonor.setIsDeleted(false);
     em.merge(existingDonor);
     em.flush();
     return existingDonor;

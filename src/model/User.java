@@ -8,12 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "User")
 public class User implements TimeStamped {
 
   @Id
@@ -51,7 +50,7 @@ public class User implements TimeStamped {
   private Date lastLogin;
 
   @Lob
-  private String comments;
+  private String notes;
 
   private Boolean isDeleted;
 
@@ -110,8 +109,8 @@ public class User implements TimeStamped {
     return lastLogin;
   }
 
-  public String getComments() {
-    return comments;
+  public String getNotes() {
+    return notes;
   }
 
   public Boolean getIsDeleted() {
@@ -170,8 +169,8 @@ public class User implements TimeStamped {
     this.lastLogin = lastLogin;
   }
 
-  public void setComments(String comments) {
-    this.comments = comments;
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 
   public void setIsDeleted(Boolean isDeleted) {

@@ -379,10 +379,10 @@ public class CreateDataController {
 				gender = "female";
 			}
 			String lastName = LAST_NAMES[r.nextInt(LAST_NAMES.length)];
-			donorRepository.saveDonor(new Donor(new Integer(i + 1).toString(),
-					firstName, lastName, gender, bloodTypes[r
-							.nextInt(bloodTypes.length)], getRandomDOB(), null,
-					"address" + i, Boolean.FALSE, "dummy comment"));
+//			donorRepository.saveDonor(new Donor(new Integer(i + 1).toString(),
+//					firstName, lastName, gender, bloodTypes[r
+//							.nextInt(bloodTypes.length)], getRandomDOB(), null,
+//					"address" + i, Boolean.FALSE, "dummy comment"));
 		}
 
 	}

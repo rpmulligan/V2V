@@ -1,13 +1,13 @@
 package viewmodel;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import model.BloodAbo;
+import model.BloodRhd;
 import model.Donor;
 
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +22,7 @@ public class DonorViewModel {
   }
 
   public String getDonorId() {
-    return donor.getDonorId().toString();
+    return donor.getId().toString();
   }
 
   public String getDonorNumber() {
@@ -38,11 +38,15 @@ public class DonorViewModel {
   }
 
   public String getGender() {
-    return donor.getGender();
+    return donor.getGender().name();
   }
 
-  public String getBloodType() {
-    return donor.getBloodType();
+  public BloodAbo getBloodAbo() {
+    return donor.getBloodAbo();
+  }
+
+  public BloodRhd getBloodRhd() {
+    return donor.getBloodRhd();
   }
 
   public String getBirthDate() {
@@ -54,40 +58,12 @@ public class DonorViewModel {
     return "";
   }
 
-  public String getBirthDateMonth() {
-    if (getBirthDate().length() > 0) {
-      DateTime dob = new DateTime(donor.getBirthDate());
-      return String.format("%02d", dob.monthOfYear().get());
-    }
-    return "";
-  }
-
-  public String getBirthDateDay() {
-    if (getBirthDate().length() > 0) {
-      DateTime dob = new DateTime(donor.getBirthDate());
-      return String.format("%02d", dob.dayOfMonth().get());
-    }
-    return "";
-  }
-
-  public String getBirthDateYear() {
-    if (getBirthDate().length() > 0) {
-      DateTime dob = new DateTime(donor.getBirthDate());
-      return String.format("%04d", dob.year().get());
-    }
-    return "";
-  }
-
   public String getAddress() {
     return donor.getAddress();
   }
 
-  public String getAge() {
-    return donor.getAge() == null ? "" : donor.getAge().toString();
-  }
-
-  public String getComments() {
-    Object comments = donor.getComments();
+  public String getNotes() {
+    Object comments = donor.getNotes();
     return comments == null ? "" : comments.toString();
   }
 }

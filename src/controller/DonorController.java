@@ -175,61 +175,6 @@ public class DonorController {
     return modelAndView;
   }
 
-  @RequestMapping("/updateDonor")
-  public ModelAndView updateDonor(@RequestParam Map<String, String> params,
-      HttpServletRequest request) {
-
-    Date dob = getDonorDOB(params);
-
-    Integer age = getIntParam(params, "age");
-
-    if (dob == null && age != null) {
-      DateTime birthDate = DateTime.now();
-      birthDate = birthDate.withDayOfMonth(1);
-      birthDate = birthDate.withMonthOfYear(1);
-      birthDate = birthDate.withTime(0, 0, 0, 0);
-      birthDate = birthDate.minusYears(age);
-      dob = birthDate.toDate();
-    }
-    if (dob != null && age == null) {
-      DateMidnight birthDate = new DateMidnight(dob);
-      DateTime now = new DateTime();
-      age = Years.yearsBetween(birthDate, now).getYears();
-    }
-    RecordFieldsConfig donorFields = recordFieldsConfigRepository
-        .getRecordFieldsConfig("donor");
-    Donor donor = new Donor(params.get("donorNumber"),
-        ControllerUtil.getOptionalParamValue(params.get("firstName"),
-            donorFields, "firstName"), ControllerUtil.getOptionalParamValue(
-            params.get("lastName"), donorFields, "lastName"),
-        ControllerUtil.getOptionalParamValue(params.get("gender"), donorFields,
-            "gender"), ControllerUtil.getOptionalParamValue(
-            params.get("bloodType"), donorFields, "bloodType"),
-        ControllerUtil.getOptionalParamValue(dob, donorFields, "dateOfBirth"),
-        ControllerUtil.getOptionalParamValue(age, donorFields, "age"),
-        ControllerUtil.getOptionalParamValue(params.get("address"),
-            donorFields, "address"), Boolean.FALSE, "");
-    ;
-    donor = donorRepository.updateOrAddDonor(donor);
-    ModelAndView modelAndView = new ModelAndView("donors");
-    Map<String, Object> model = new HashMap<String, Object>();
-    model.put("donorUpdated", true);
-    model.put("displayDonorNumber", donor.getDonorNumber());
-    model.put("displayFirstName", donor.getFirstName());
-    model.put("displayLastName", donor.getLastName());
-    model.put("hasDonor", true);
-    model.put("donor", new DonorViewModel(donor));
-    ControllerUtil.addDonorDisplayNamesToModel(model, displayNamesRepository);
-    addDonorHistory(donor.getDonorNumber(), model);
-    ControllerUtil.addFieldsToDisplay("donor", model,
-        recordFieldsConfigRepository);
-    ControllerUtil.addFieldsToDisplay("collection", model,
-        recordFieldsConfigRepository);
-    modelAndView.addObject("model", model);
-
-    return modelAndView;
-  }
-
   @RequestMapping(value = "/findDonorFormGenerator", method = RequestMethod.GET)
   public ModelAndView findDonorFormInit(Model model) {
 
