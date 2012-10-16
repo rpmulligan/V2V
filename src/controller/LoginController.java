@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import repository.LoginRepository;
+import repository.UserRepository;
 
 @Controller
 public class LoginController {
@@ -24,6 +25,9 @@ public class LoginController {
 	@Autowired
 	private LoginRepository loginRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+	
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request) {
 
@@ -47,6 +51,7 @@ public class LoginController {
 		User user = loginRepository.getUser(username);
 		if (user != null && password.equals(user.getPassword())) {
 			request.getSession().setAttribute("user", user);
+			userRepository.updateLastLogin(user);
 			if (StringUtils.hasText(targetUrl)) {
 				response.sendRedirect("/v2v" + targetUrl);
 			} else {

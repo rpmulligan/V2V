@@ -47,6 +47,9 @@ public class User implements TimeStamped {
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdDate;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastLogin;
+
   @Lob
   private String comments;
 
@@ -103,6 +106,10 @@ public class User implements TimeStamped {
     return createdDate;
   }
 
+  public Date getLastLogin() {
+    return lastLogin;
+  }
+
   public String getComments() {
     return comments;
   }
@@ -157,6 +164,10 @@ public class User implements TimeStamped {
 
   public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
+  }
+
+  public void setLastLogin(Date lastLogin) {
+    this.lastLogin = lastLogin;
   }
 
   public void setComments(String comments) {
