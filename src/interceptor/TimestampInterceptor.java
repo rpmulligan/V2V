@@ -6,10 +6,15 @@ import java.util.Date;
 import model.TimeStamped;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.hibernate.EmptyInterceptor;
 import org.hibernate.annotations.Type;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class TimestampInterceptor extends HandlerInterceptorAdapter {
+public class TimestampInterceptor extends EmptyInterceptor {
+
+  /**
+   * Avoid compiler warning. We need a version ID for a Serializable type.
+   */
+  private static final long serialVersionUID = 1L;
 
   public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, 
           Object[] previousState, String[] propertyNames, Type[] types) {

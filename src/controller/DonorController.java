@@ -16,6 +16,7 @@ import model.Donor;
 import model.DonorBackingForm;
 import model.Location;
 import model.RecordFieldsConfig;
+import model.User;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
@@ -35,6 +36,7 @@ import repository.DisplayNamesRepository;
 import repository.DonorRepository;
 import repository.LocationRepository;
 import repository.RecordFieldsConfigRepository;
+import repository.UserRepository;
 import utils.ControllerUtil;
 import viewmodel.CollectionViewModel;
 import viewmodel.DonorViewModel;
@@ -53,6 +55,9 @@ public class DonorController {
 
   @Autowired
   private RecordFieldsConfigRepository recordFieldsConfigRepository;
+
+  @Autowired
+  private UserRepository userRepository;
 
   public DonorController() {
   }

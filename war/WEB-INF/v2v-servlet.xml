@@ -56,7 +56,6 @@
 		<bean id="loginInterceptor" class="interceptor.LoginInterceptor" />
 		<bean id="userInterceptor" class="interceptor.UserInterceptor" />
 		<bean id="loggingInterceptor" class="interceptor.LoggingInterceptor" />
-		<bean id="timestampInterceptor" class="interceptor.TimestampInterceptor" />
 	</mvc:interceptors>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
