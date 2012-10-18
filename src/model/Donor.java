@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Donor {
+public class Donor implements TimeStamped {
 
   @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

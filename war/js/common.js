@@ -29,7 +29,6 @@ function generateEditForm(formGeneratorUrl, jsonInputData, updateFunction,
 
       });
       $("#" + editFormId).dialog("open");
-      onSuccessDecorate();
     }
   });
 }

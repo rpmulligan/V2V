@@ -54,6 +54,16 @@ select:focus {
 	box-shadow: 0 0 15px #9ecaed;
 }
 
+.editDialog > div {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.editDialog > div > label {
+	margin-left: 30px;
+	margin-right: 10px;
+}
+
 .ui-datepicker {
 	width: 17em;
 	padding: .2em .2em 0;

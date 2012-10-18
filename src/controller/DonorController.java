@@ -15,12 +15,8 @@ import model.Collection;
 import model.Donor;
 import model.DonorBackingForm;
 import model.Location;
-import model.RecordFieldsConfig;
-import model.User;
 
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
-import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,9 +89,11 @@ public class DonorController {
 
   @RequestMapping(value = "/editDonorFormGenerator", method = RequestMethod.GET)
   public ModelAndView editDonorFormGenerator(Model model,
-      @RequestParam(value = "donorNumber", required = false) String donorNumber) {
+      @RequestParam(value = "donorNumber", required = false) String donorNumber,
+      @RequestParam(value = "isDialog", required = false) String isDialog) {
 
     DonorBackingForm form = new DonorBackingForm();
+    Map<String, Object> m = model.asMap();
     ModelAndView mv = new ModelAndView("editDonorForm");
     if (donorNumber != null) {
       form.setDonorNumber(donorNumber);
@@ -105,8 +103,8 @@ public class DonorController {
       else
         form = new DonorBackingForm();
     }
-    model.addAttribute("editDonorForm", form);
-    Map<String, Object> m = model.asMap();
+    m.put("editDonorForm", form);
+    m.put("isDialog", isDialog);
     // to ensure custom field names are displayed in the form
     ControllerUtil.addDonorDisplayNamesToModel(m, displayNamesRepository);
     mv.addObject("model", m);

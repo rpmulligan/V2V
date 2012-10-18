@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import viewmodel.DonorViewModel;
 
 public class DonorBackingForm {

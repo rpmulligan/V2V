@@ -5,18 +5,25 @@
 
 <%!public long getCurrentTime() {
 		return System.nanoTime();
-	}%>
+	}
+	Long button_id = getCurrentTime();%>
+
+<c:set var="button_id"><%=getCurrentTime()%></c:set>
 
 <script>
 	$(".addDonorButton").button({icons: {primary:'ui-icon-plusthick'}});
-	function bootup(button_id) {
-		generateEditForm("editDonorFormGenerator.html", {}, addNewDonor,
-		    						 "Add New Donor", "addDonorButtonEdit" + button_id, decorateEditDonorDialog, 550, 500);
+
+	function bootup() {
+		generateEditForm("editDonorFormGenerator.html", {isDialog : "yes"},
+		    						 addNewDonor,
+		    						 "Add New Donor",
+		    						 "addDonorButtonEdit-" + "<%=button_id%>",
+		    						 function(){}, 610, 1100);
 	}
 </script>
 
 
-<c:set var="button_id"><%=getCurrentTime()%></c:set>
 
-<button id="addDonorButton-${button_id}" onclick="bootup(${button_id});"
-	class="addDonorButton">Click here to add a new donor</button>
+<button id="addDonorButton-${button_id}"
+	onclick="bootup(${button_id});" class="addDonorButton">Click
+	here to add a new donor</button>

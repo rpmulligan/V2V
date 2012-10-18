@@ -47,10 +47,11 @@
               var donorId = elements[0].innerHTML;
 
               generateEditForm("editDonorFormGenerator.html", {
-                donorNumber : donorId
+                donorNumber : donorId,
+                isDialog : "yes"
               }, updateExistingDonor, "Edit Donor: " + elements[1].innerHTML
                   + " " + elements[2].innerHTML, 'donorsTable',
-                  decorateEditDonorDialog, 550, 500);
+                  null, 550, 500);
               return false;
             });
 
@@ -124,9 +125,6 @@
 			<c:if test="${model.showgender==true}">
 				<th>${model.genderDisplayName}</th>
 			</c:if>
-			<c:if test="${model.showbloodType==true}">
-				<th>${model.bloodTypeDisplayName}</th>
-			</c:if>
 			<c:if test="${model.showdateOfBirth==true}">
 				<th>${model.dobDisplayName}</th>
 			</c:if>
@@ -145,9 +143,6 @@
 				</c:if>
 				<c:if test="${model.showgender==true}">
 					<td>${donor.gender}</td>
-				</c:if>
-				<c:if test="${model.showbloodType==true}">
-					<td>${donor.bloodType}</td>
 				</c:if>
 				<c:if test="${model.showdateOfBirth==true}">
 					<td>${donor.birthDate}</td>

@@ -46,7 +46,7 @@
           isDialog : "yes"
         }, updateExistingCollection, "Edit Collection: "
             + elements[1].innerHTML + " " + elements[2].innerHTML,
-            'collectionsTable', decorateEditCollectionDialog, 550, 500);
+            'collectionsTable', decorateEditCollectionDialog, 580, 1100);
       });
 
   // we need to invoke the live function here in order for click event to be
