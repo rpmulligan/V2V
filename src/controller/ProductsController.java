@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import model.Issue;
 import model.Product;
 import model.ProductBackingForm;
+import model.ProductType;
 import model.Request;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ProductsController {
 
   @Autowired
   private IssueRepository issueRepository;
-  
+
   @Autowired
   private RecordFieldsConfigRepository recordFieldsConfigRepository;
 
@@ -74,9 +75,10 @@ public class ProductsController {
       @ModelAttribute("findProductForm") ProductBackingForm form,
       BindingResult result, Model model) {
 
-    List<Product> products = productRepository.findAnyProductMatching(
-        form.getProductNumber(), form.getCollectedSample().getCollectionNumber(), form.getTypes(),
-        form.getAvailability());
+    List<ProductType> productTypes = getProductTypes(form.getTypes());
+    List<Product> products = productRepository.findAnyProductMatching(form
+        .getProductNumber(), form.getCollectedSample().getCollectionNumber(),
+        productTypes, form.getAvailability());
 
     ModelAndView modelAndView = new ModelAndView("productsTable");
     Map<String, Object> m = model.asMap();
@@ -90,12 +92,21 @@ public class ProductsController {
     return modelAndView;
   }
 
+  private List<ProductType> getProductTypes(List<String> types) {
+    List<ProductType> productTypes = new ArrayList<ProductType>();
+    for (String type : types) {
+      productTypes.add(ProductType.valueOf(type));
+    }
+    return productTypes;
+  }
+
   @RequestMapping("/findAvailableProducts")
   public ModelAndView findAvailableProducts(
       @RequestParam(value = "requestNumber", required = true) String requestNumber,
       Model model) {
 
-    Request request = requestRepository.findRequestByRequestNumber(requestNumber);
+    Request request = requestRepository
+        .findRequestByRequestNumber(requestNumber);
 
     List<Product> products = new ArrayList<Product>();
     if (request != null) {
@@ -133,7 +144,7 @@ public class ProductsController {
           .findProductByProductNumber(productNumber);
       if (product != null) {
         form = new ProductBackingForm(product);
-        m.put("selectedType", product.getType());
+        m.put("selectedType", product.getProductType());
       } else
         form = new ProductBackingForm();
     }
@@ -188,9 +199,8 @@ public class ProductsController {
   @RequestMapping(value = "/issueProducts", method = RequestMethod.POST)
   public @ResponseBody
   Map<String, ? extends Object> issueProducts(
-      @RequestParam(value="products", required=false) String productsJson,
-      @RequestParam(value="requestNumber", required=true) String requestNumber 
-      ) {
+      @RequestParam(value = "products", required = false) String productsJson,
+      @RequestParam(value = "requestNumber", required = true) String requestNumber) {
 
     boolean success = true;
     String errMsg = "";
@@ -204,11 +214,11 @@ public class ProductsController {
       for (String productNumber : products.values()) {
         System.out.println("Issuing Product Number: " + productNumber);
         Issue issue = new Issue();
-        issue.setDateIssued(new Date());
-        issue.setProductNumber(productNumber);
-        issue.setSiteId(siteId);
-        issue.setComments("issued product");
-        issue.setDeleted(Boolean.FALSE);
+//        issue.setDateIssued(new Date());
+//        issue.setProductNumber(productNumber);
+//        issue.setSiteId(siteId);
+//        issue.setComments("issued product");
+//        issue.setDeleted(Boolean.FALSE);
         issueRepository.saveIssue(issue);
         productRepository.issueProduct(productNumber);
       }
@@ -224,7 +234,6 @@ public class ProductsController {
     return m;
   }
 
-  
   @RequestMapping("/productsLandingPage")
   public ModelAndView getProductsLandingPage(
       HttpServletRequest httpServletRequest) {

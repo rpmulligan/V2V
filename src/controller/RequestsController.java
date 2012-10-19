@@ -69,7 +69,8 @@ public class RequestsController {
     List<Request> requests = requestRepository.findAnyRequestMatching(
         form.getRequestNumber(), form.getDateRequestedFrom(),
         form.getDateRequestedTo(), form.getDateRequiredFrom(),
-        form.getDateRequiredTo(), form.getSites(), form.getProductTypes(), form.getStatuses());
+        form.getDateRequiredTo(), form.getSites(), form.getProductTypes(),
+        form.getStatuses());
 
     ModelAndView modelAndView = new ModelAndView("requestsTable");
     Map<String, Object> m = model.asMap();
@@ -128,7 +129,8 @@ public class RequestsController {
       Request request = requestRepository
           .findRequestByRequestNumber(requestNumber);
       if (request != null) {
-        Location l = locationRepository.getLocation(request.getSiteId());
+        Location l = locationRepository.getLocation(request.getRequestSite()
+            .getLocationId());
         m.put("selectedProductType", request.getProductType());
         form = new RequestBackingForm(request);
         if (l != null)
@@ -155,8 +157,8 @@ public class RequestsController {
       Request request = form.getRequest();
       String site = form.getSites().get(0);
       Long siteId = locationRepository.getIDByName(site);
-      request.setComment("");
-      request.setSiteId(siteId);
+      request.setNotes("");
+      request.setRequestSite(locationRepository.getLocation(siteId));
       requestRepository.updateOrAddRequest(request);
     } catch (EntityExistsException ex) {
       // TODO: Replace with logger

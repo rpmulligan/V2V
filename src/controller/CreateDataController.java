@@ -513,14 +513,14 @@ public class CreateDataController {
 			String productType = productTypes[r.nextInt(productTypes.length)];
 			productType = productType.equals("partialPlatelets") ? "platelets"
 					: productType;
-			Request request = new Request(new Integer(i + 1).toString(),
-					requestDate, requiredDate, sites.get(
-							r.nextInt(sites.size())).getLocationId(),
-					productType, bloodTypes[r.nextInt(bloodTypes.length)],
-					rhd[r.nextInt(rhd.length)], r.nextInt(20),
-					status[r.nextInt(status.length)], Boolean.FALSE, "comment_"
-							+ i);
-			requestRepository.saveRequest(request);
+//			Request request = new Request(new Integer(i + 1).toString(),
+//					requestDate, requiredDate, sites.get(
+//							r.nextInt(sites.size())).getLocationId(),
+//					productType, bloodTypes[r.nextInt(bloodTypes.length)],
+//					rhd[r.nextInt(rhd.length)], r.nextInt(20),
+//					status[r.nextInt(status.length)], Boolean.FALSE, "comment_"
+//							+ i);
+//			requestRepository.saveRequest(request);
 		}
 	}
 

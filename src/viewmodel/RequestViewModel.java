@@ -5,8 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import model.BloodAbo;
+import model.BloodRhd;
+import model.Issue;
 import model.Location;
+import model.ProductType;
 import model.Request;
+import model.User;
 
 public class RequestViewModel {
 	private Request request;
@@ -21,16 +26,12 @@ public class RequestViewModel {
 	  this.request = request;
   }
 
-  public Long getRequestId() {
-		return request.getRequestId();
-	}
-
 	public String getRequestNumber() {
 		return request.getRequestNumber();
 	}
 
-	public String getDateRequested() {
-		Date dateRequested = request.getDateRequested();
+	public String getRequestedOn() {
+		Date dateRequested = request.getRequestedOn();
 		if (dateRequested != null) {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			return formatter.format(dateRequested);
@@ -39,7 +40,7 @@ public class RequestViewModel {
 	}
 
 	public String getDateRequired() {
-		Date dateRequired = request.getDateRequired();
+		Date dateRequired = request.getRequiredOn();
 		if (dateRequired != null) {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			return formatter.format(dateRequired);
@@ -47,54 +48,87 @@ public class RequestViewModel {
 		return "";
 	}
 
-	public String getSiteId() {
-		return getStringValue(request.getSiteId());
-	}
-
-	public String getSiteName() {
-		Long siteId = request.getSiteId();
-		if (sites != null && siteId != null) {
-			for (Location site : sites) {
-				if (site.getLocationId().equals(siteId)) {
-					return site.getName();
-				}
-			}
-		}
-		return "";
-	}
-
-	public String getProductType() {
-		return request.getProductType();
-	}
-
-	public String getAbo() {
-		return request.getAbo();
-	}
-
-	public String getRhd() {
-		return request.getRhd();
-	}
-
-	public String getQuantity() {
-		return getStringValue(request.getQuantity().longValue());
-	}
-
-	public String getComments() {
-		return request.getComments();
-	}
-
-	public String getStatus() {
-		return request.getStatus();
-	}
-
-	public Boolean getUnfulfilled() {
-		if (!request.getStatus().equals("fulfilled")) {
-			return true;
-		}
-		return false;
-	}
-
 	private String getStringValue(Long value) {
 		return value == null ? "" : value.toString();
 	}
+
+  public List<Location> getSites() {
+    return sites;
+  }
+
+  public void setSites(List<Location> sites) {
+    this.sites = sites;
+  }
+
+  public void copy(Request request) {
+    request.copy(request);
+  }
+
+  public boolean equals(Object obj) {
+    return request.equals(obj);
+  }
+
+  public Long getId() {
+    return request.getId();
+  }
+
+  public Date getRequiredOn() {
+    return request.getRequiredOn();
+  }
+
+  public Location getRequestSite() {
+    return request.getRequestSite();
+  }
+
+  public BloodAbo getBloodAbo() {
+    return request.getBloodAbo();
+  }
+
+  public BloodRhd getBloodRhd() {
+    return request.getBloodRhd();
+  }
+
+  public ProductType getProductType() {
+    return request.getProductType();
+  }
+
+  public Integer getQuantity() {
+    return request.getQuantity();
+  }
+
+  public String getStatus() {
+    return request.getStatus().name();
+  }
+
+  public List<Issue> getIssuedProducts() {
+    return request.getIssuedProducts();
+  }
+
+  public Date getLastUpdated() {
+    return request.getLastUpdated();
+  }
+
+  public Date getCreatedDate() {
+    return request.getCreatedDate();
+  }
+
+  public User getCreatedBy() {
+    return request.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return request.getLastUpdatedBy();
+  }
+
+  public String getNotes() {
+    return request.getNotes();
+  }
+
+  public Boolean getIsDeleted() {
+    return request.getIsDeleted();
+  }
+
+  public int hashCode() {
+    return request.hashCode();
+  }
 }

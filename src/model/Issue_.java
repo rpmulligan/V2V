@@ -5,13 +5,18 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2012-10-14T22:37:27.319-0400")
+@Generated(value="Dali", date="2012-10-19T01:32:57.628-0400")
 @StaticMetamodel(Issue.class)
 public class Issue_ {
-	public static volatile SingularAttribute<Issue, Long> issueId;
-	public static volatile SingularAttribute<Issue, String> productNumber;
-	public static volatile SingularAttribute<Issue, Date> dateIssued;
-	public static volatile SingularAttribute<Issue, Long> siteId;
-	public static volatile SingularAttribute<Issue, String> comments;
 	public static volatile SingularAttribute<Issue, Boolean> isDeleted;
+	public static volatile SingularAttribute<Issue, Long> id;
+	public static volatile SingularAttribute<Issue, Request> request;
+	public static volatile SingularAttribute<Issue, Product> product;
+	public static volatile SingularAttribute<Issue, Date> issuedOn;
+	public static volatile SingularAttribute<Issue, Date> lastUpdated;
+	public static volatile SingularAttribute<Issue, Date> createdDate;
+	public static volatile SingularAttribute<Issue, User> createdBy;
+	public static volatile SingularAttribute<Issue, User> lastUpdatedBy;
+	public static volatile SingularAttribute<Issue, String> notes;
+	public static volatile SingularAttribute<Issue, Integer> quantityIssued;
 }

@@ -66,20 +66,8 @@ public class ProductBackingForm {
     return product.getCollectedSample();
   }
 
-  public Date getDateCollected() {
-    return product.getDateCollected();
-  }
-
-  public String getType() {
-    return product.getType();
-  }
-
-  public String getAbo() {
-    return product.getAbo();
-  }
-
-  public String getRhd() {
-    return product.getRhd();
+  public String getProductType() {
+    return product.getProductType();
   }
 
   public Date getExpiryDate() {
@@ -126,20 +114,8 @@ public class ProductBackingForm {
     product.setCollectedSample(collectedSample);
   }
 
-  public void setDateCollected(Date dateCollected) {
-    product.setDateCollected(dateCollected);
-  }
-
-  public void setType(String type) {
-    product.setType(type);
-  }
-
-  public void setAbo(String abo) {
-    product.setAbo(abo);
-  }
-
-  public void setRhd(String rhd) {
-    product.setRhd(rhd);
+  public void setProductType(String type) {
+    product.setProductType(type);
   }
 
   public void setExpiryDate(Date expiryDate) {

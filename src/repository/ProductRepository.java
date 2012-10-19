@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import model.CollectedSample;
 import model.Product;
+import model.ProductType;
 
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -140,28 +141,9 @@ public class ProductRepository {
     return em.find(Product.class, productId);
   }
 
-  public void updateProductBloodGroup(String collectionNumber, String abo,
-      String rhd) {
-    String queryString = "SELECT p FROM Product p WHERE p.collectionNumber = :collectionNumber and p.isDeleted = :isDeleted";
-    TypedQuery<Product> query = em.createQuery(queryString, Product.class);
-    query.setParameter("isDeleted", Boolean.FALSE);
-    List<Product> products = query.setParameter("collectionNumber",
-        collectionNumber).getResultList();
-    for (Product product : products) {
-      if (StringUtils.hasText(abo)) {
-        product.setAbo(abo);
-      }
-      if (StringUtils.hasText(rhd)) {
-        product.setRhd(rhd);
-      }
-      em.merge(product);
-    }
-    em.flush();
-  }
-
   public List<Product> findAnyProductMatching(String productNumber,
-      String collectionNumber, List<String> types, List<String> availability) {
 
+      String collectionNumber, List<ProductType> types, List<String> availability) {
     TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE "
         + "(p.productNumber = :productNumber OR "
         + "p.collectionNumber = :collectionNumber "
@@ -219,7 +201,7 @@ public class ProductRepository {
     }
     CollectedSample collectedSample = product.getCollectedSample();
     existingProduct.setCollectedSample(collectedSample);
-    existingProduct.setType(product.getType());
+    existingProduct.setProductType(product.getProductType());
     existingProduct.setIsDeleted(false);
     em.merge(existingProduct);
     em.flush();

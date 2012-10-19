@@ -40,7 +40,7 @@ public class RequestBackingForm {
   public void setDateRequested(String dateRequested) {
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     try {
-      request.setDateRequested(dateFormat.parse(dateRequested));
+      request.setRequestedOn(dateFormat.parse(dateRequested));
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -50,107 +50,26 @@ public class RequestBackingForm {
   public void setDateRequired(String dateRequired) {
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     try {
-      request.setDateRequired(dateFormat.parse(dateRequired));
+      request.setRequiredOn(dateFormat.parse(dateRequired));
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
-
-  public void setSiteId(Long siteId) {
-    request.setSiteId(siteId);
-  }
-
-  public void setProductType(String productType) {
-    request.setProductType(productType);
-  }
-
-  public void setRhd(String rhd) {
-    request.setRhd(rhd);
-  }
-
-  public void setQuantity(Integer quantity) {
-    request.setQuantity(quantity);
-  }
-
-  public void setComment(String comment) {
-    request.setComment(comment);
-  }
-
-  public void setStatus(String status) {
-    request.setStatus(status);
-  }
-
-  public void setIsDeleted(Boolean isDeleted) {
-    request.setIsDeleted(isDeleted);
-  }
-
-  public Long getRequestId() {
-    return request.getRequestId();
-  }
-
-  public String getRequestNumber() {
-    return request.getRequestNumber();
-  }
-
-  public String getDateRequested() {
-    Date dateRequested = request.getDateRequested();
+  public String getRequestedOn() {
+    Date dateRequested = request.getRequestedOn();
     if (dateRequested == null)
       return null;
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     return dateFormat.format(dateRequested);
   }
 
-  public String getDateRequired() {
-    Date dateRequired = request.getDateRequired();
+  public String getRequiredOn() {
+    Date dateRequired = request.getRequiredOn();
     if (dateRequired == null)
       return null;
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     return dateFormat.format(dateRequired);
-  }
-
-  public Long getSiteId() {
-    return request.getSiteId();
-  }
-
-  public String getProductType() {
-    return request.getProductType();
-  }
-
-  public String getAbo() {
-    return request.getAbo();
-  }
-
-  public String getRhd() {
-    return request.getRhd();
-  }
-
-  public Integer getQuantity() {
-    return request.getQuantity();
-  }
-
-  public String getComments() {
-    return request.getComments();
-  }
-
-  public String getStatus() {
-    return request.getStatus();
-  }
-
-  public Boolean getDeleted() {
-    return request.getDeleted();
-  }
-
-  public int hashCode() {
-    return request.hashCode();
-  }
-
-  public void setAbo(String abo) {
-    request.setAbo(abo);
-  }
-
-  public String toString() {
-    return request.toString();
   }
 
   public String getDateRequestedFrom() {
@@ -215,5 +134,145 @@ public class RequestBackingForm {
 
   public void setStatuses(List<String> statuses) {
     this.statuses = statuses;
+  }
+
+  public Long getId() {
+    return request.getId();
+  }
+
+  public String getRequestNumber() {
+    return request.getRequestNumber();
+  }
+
+  public Date getDateRequested() {
+    return request.getRequestedOn();
+  }
+
+  public Date getDateRequired() {
+    return request.getRequiredOn();
+  }
+
+  public Location getRequestSite() {
+    return request.getRequestSite();
+  }
+
+  public BloodAbo getBloodAbo() {
+    return request.getBloodAbo();
+  }
+
+  public BloodRhd getBloodRhd() {
+    return request.getBloodRhd();
+  }
+
+  public ProductType getProductType() {
+    return request.getProductType();
+  }
+
+  public Integer getQuantity() {
+    return request.getQuantity();
+  }
+
+  public String getStatus() {
+    return request.getStatus().name();
+  }
+
+  public List<Issue> getIssuedProducts() {
+    return request.getIssuedProducts();
+  }
+
+  public Date getLastUpdated() {
+    return request.getLastUpdated();
+  }
+
+  public Date getCreatedDate() {
+    return request.getCreatedDate();
+  }
+
+  public User getCreatedBy() {
+    return request.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return request.getLastUpdatedBy();
+  }
+
+  public String getNotes() {
+    return request.getNotes();
+  }
+
+  public Boolean getIsDeleted() {
+    return request.getIsDeleted();
+  }
+
+  public int hashCode() {
+    return request.hashCode();
+  }
+
+  public void setId(Long id) {
+    request.setId(id);
+  }
+
+  public void setRequestedOn(Date dateRequested) {
+    request.setRequestedOn(dateRequested);
+  }
+
+  public void setRequiredOn(Date dateRequired) {
+    request.setRequiredOn(dateRequired);
+  }
+
+  public void setRequestSite(Location requestSite) {
+    request.setRequestSite(requestSite);
+  }
+
+  public void setBloodAbo(BloodAbo bloodAbo) {
+    request.setBloodAbo(bloodAbo);
+  }
+
+  public void setBloodRhd(BloodRhd bloodRhd) {
+    request.setBloodRhd(bloodRhd);
+  }
+
+  public void setProductType(ProductType productType) {
+    request.setProductType(productType);
+  }
+
+  public void setQuantity(Integer quantity) {
+    request.setQuantity(quantity);
+  }
+
+  public void setStatus(String status) {
+    request.setStatus(RequestStatus.valueOf(status));
+  }
+
+  public void setIssuedProducts(List<Issue> issuedProducts) {
+    request.setIssuedProducts(issuedProducts);
+  }
+
+  public void setLastUpdated(Date lastUpdated) {
+    request.setLastUpdated(lastUpdated);
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    request.setCreatedDate(createdDate);
+  }
+
+  public void setCreatedBy(User createdBy) {
+    request.setCreatedBy(createdBy);
+  }
+
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    request.setLastUpdatedBy(lastUpdatedBy);
+  }
+
+  public void setNotes(String notes) {
+    request.setNotes(notes);
+  }
+
+  public void setIsDeleted(Boolean isDeleted) {
+    request.setIsDeleted(isDeleted);
+  }
+
+  public String toString() {
+    return request.toString();
   }
 }

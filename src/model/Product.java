@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,10 +27,8 @@ public class Product {
   @ManyToOne
   private CollectedSample collectedSample;
 
-  private Date dateCollected;
-  private String type;
-  private String abo;
-  private String rhd;
+  @Enumerated(EnumType.STRING)
+  private ProductType productType;
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date expiryDate;
@@ -87,20 +87,8 @@ public class Product {
     return collectedSample;
   }
 
-  public Date getDateCollected() {
-    return dateCollected;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getAbo() {
-    return abo;
-  }
-
-  public String getRhd() {
-    return rhd;
+  public String getProductType() {
+    return productType.name();
   }
 
   public Date getExpiryDate() {
@@ -143,20 +131,8 @@ public class Product {
     this.collectedSample = collectedSample;
   }
 
-  public void setDateCollected(Date dateCollected) {
-    this.dateCollected = dateCollected;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public void setAbo(String abo) {
-    this.abo = abo;
-  }
-
-  public void setRhd(String rhd) {
-    this.rhd = rhd;
+  public void setProductType(String type) {
+    this.productType = ProductType.valueOf(type);
   }
 
   public void setExpiryDate(Date expiryDate) {

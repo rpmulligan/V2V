@@ -44,20 +44,8 @@ public class ProductViewModel {
     return product.getCollectedSample();
   }
 
-  public Date getDateCollected() {
-    return product.getDateCollected();
-  }
-
-  public String getType() {
-    return product.getType();
-  }
-
-  public String getAbo() {
-    return product.getAbo();
-  }
-
-  public String getRhd() {
-    return product.getRhd();
+  public String getProductType() {
+    return product.getProductType();
   }
 
   public Date getExpiryDate() {
@@ -87,5 +75,4 @@ public class ProductViewModel {
   public Boolean getIsDeleted() {
     return product.getIsDeleted();
   }
-
 }

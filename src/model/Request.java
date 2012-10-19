@@ -1,155 +1,212 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Request {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long requestId;
-	private String requestNumber;
-	private Date dateRequested;
-	private Date dateRequired;
-	private Long siteId;
-	private String productType;
-	private String abo;
-	private String rhd;
-	private Integer quantity;
-	private String status;
-	private String comments;
+	private Long id;
 
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	private Boolean isDeleted;
+	@Column(nullable=false)
+	private String requestNumber;
+
+  @Temporal(TemporalType.TIMESTAMP)
+	private Date requestedOn;
+
+  @Temporal(TemporalType.TIMESTAMP)
+	private Date requiredOn;
+
+  @ManyToOne
+	private Location requestSite;
+
+  @Enumerated(EnumType.STRING)
+  private BloodAbo bloodAbo;
+
+  @Enumerated(EnumType.STRING)
+  private BloodRhd bloodRhd;
+
+  @Enumerated(EnumType.STRING)
+	private ProductType productType;
+
+	private Integer quantity;
+
+  @Enumerated(EnumType.STRING)
+  private RequestStatus status;
+
+  @OneToMany(mappedBy = "request")
+  List<Issue> issuedProducts;
+  
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastUpdated;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDate;
+
+  @ManyToOne
+  private User createdBy;
+
+  @ManyToOne
+  private User lastUpdatedBy;
+
+  @Lob
+  private String notes;
+
+  private Boolean isDeleted;
 
 	public Request() {
 	}
 
-	public Request(String requestNumber, Date dateRequested, Date dateRequired,
-			Long siteId, String productType, String abo, String rhd,
-			Integer quantity, String status, Boolean deleted, String comments) {
-		this.requestNumber = requestNumber;
-		this.dateRequested = dateRequested;
-		this.dateRequired = dateRequired;
-		this.siteId = siteId;
-		this.productType = productType;
-		this.abo = abo;
-		this.rhd = rhd;
-		this.quantity = quantity;
-		this.comments = comments;
-		this.status = status;
-		isDeleted = deleted;
-	}
-
 	public void copy(Request request) {
-		this.requestNumber = request.requestNumber;
-		this.dateRequested = request.dateRequested;
-		this.dateRequired = request.dateRequired;
-		this.siteId = request.siteId;
-		this.productType = request.productType;
-		this.abo = request.abo;
-		this.rhd = request.rhd;
-		this.quantity = request.quantity;
-		this.comments = request.comments;
-		this.status = request.status;
-		isDeleted = request.isDeleted;
 	}
 
-	public void setRequestNumber(String requestNumber) {
-		this.requestNumber = requestNumber;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setDateRequested(Date dateRequested) {
-		this.dateRequested = dateRequested;
-	}
+  public String getRequestNumber() {
+    return requestNumber;
+  }
 
-	public void setDateRequired(Date dateRequired) {
-		this.dateRequired = dateRequired;
-	}
+  public Date getRequestedOn() {
+    return requestedOn;
+  }
 
-	public void setSiteId(Long siteId) {
-		this.siteId = siteId;
-	}
+  public Date getRequiredOn() {
+    return requiredOn;
+  }
 
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
+  public Location getRequestSite() {
+    return requestSite;
+  }
 
-	public void setAbo(String abo) {
-		this.abo = abo;
-	}
+  public BloodAbo getBloodAbo() {
+    return bloodAbo;
+  }
 
-	public void setRhd(String rhd) {
-		this.rhd = rhd;
-	}
+  public BloodRhd getBloodRhd() {
+    return bloodRhd;
+  }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+  public ProductType getProductType() {
+    return productType;
+  }
 
-	public void setComment(String comment) {
-		this.comments = comments;
-	}
+  public Integer getQuantity() {
+    return quantity;
+  }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  public RequestStatus getStatus() {
+    return status;
+  }
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
+  public List<Issue> getIssuedProducts() {
+    return issuedProducts;
+  }
 
-	public Long getRequestId() {
-		return requestId;
-	}
+  public Date getLastUpdated() {
+    return lastUpdated;
+  }
 
-	public String getRequestNumber() {
-		return requestNumber;
-	}
+  public Date getCreatedDate() {
+    return createdDate;
+  }
 
-	public Date getDateRequested() {
-		return dateRequested;
-	}
+  public User getCreatedBy() {
+    return createdBy;
+  }
 
-	public Date getDateRequired() {
-		return dateRequired;
-	}
+  public User getLastUpdatedBy() {
+    return lastUpdatedBy;
+  }
 
-	public Long getSiteId() {
-		return siteId;
-	}
+  public String getNotes() {
+    return notes;
+  }
 
-	public String getProductType() {
-		return productType;
-	}
+  public Boolean getIsDeleted() {
+    return isDeleted;
+  }
 
-	public String getAbo() {
-		return abo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getRhd() {
-		return rhd;
-	}
+  public void setRequestNumber(String requestNumber) {
+    this.requestNumber = requestNumber;
+  }
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+  public void setRequestedOn(Date dateRequested) {
+    this.requestedOn = dateRequested;
+  }
 
-	public String getComments() {
-		return comments;
-	}
+  public void setRequiredOn(Date dateRequired) {
+    this.requiredOn = dateRequired;
+  }
 
-	public String getStatus() {
-		return status;
-	}
+  public void setRequestSite(Location requestSite) {
+    this.requestSite = requestSite;
+  }
 
-	public Boolean getDeleted() {
-		return isDeleted;
-	}
+  public void setBloodAbo(BloodAbo bloodAbo) {
+    this.bloodAbo = bloodAbo;
+  }
+
+  public void setBloodRhd(BloodRhd bloodRhd) {
+    this.bloodRhd = bloodRhd;
+  }
+
+  public void setProductType(ProductType productType) {
+    this.productType = productType;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public void setStatus(RequestStatus status) {
+    this.status = status;
+  }
+
+  public void setIssuedProducts(List<Issue> issuedProducts) {
+    this.issuedProducts = issuedProducts;
+  }
+
+  public void setLastUpdated(Date lastUpdated) {
+    this.lastUpdated = lastUpdated;
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public void setCreatedBy(User createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    this.lastUpdatedBy = lastUpdatedBy;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public void setIsDeleted(Boolean isDeleted) {
+    this.isDeleted = isDeleted;
+  }
 }
