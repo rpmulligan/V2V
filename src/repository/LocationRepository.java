@@ -116,6 +116,15 @@ public class LocationRepository {
     return (long) -1;
   }
 
+  public Location getLocationByName(String name) {
+    List<Location> locations = getAllLocations();
+    for (Location l : locations) {
+      if (l.getName().equals(name))
+        return l;
+    }
+    return null;
+  }
+
   public List<String> getAllCollectionSitesAsString() {
     List<Location> locations = getAllUsageSites();
     List<String> locationNames = new ArrayList<String>();

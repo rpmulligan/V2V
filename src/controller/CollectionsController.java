@@ -13,10 +13,9 @@ import java.util.Map;
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 
-import model.Collection;
-import model.CollectionBackingForm;
+import model.CollectedSample;
+import model.CollectedSampleBackingForm;
 import model.Location;
-import model.RecordFieldsConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +53,7 @@ public class CollectionsController {
   @RequestMapping(value = "/findCollectionFormGenerator", method = RequestMethod.GET)
   public ModelAndView findCollectionFormInit(Model model) {
 
-    CollectionBackingForm form = new CollectionBackingForm();
+    CollectedSampleBackingForm form = new CollectedSampleBackingForm();
     model.addAttribute("findCollectionForm", form);
 
     ModelAndView mv = new ModelAndView("findCollectionForm");
@@ -68,10 +67,10 @@ public class CollectionsController {
 
   @RequestMapping("/findCollection")
   public ModelAndView findCollection(
-      @ModelAttribute("findCollectionForm") CollectionBackingForm form,
+      @ModelAttribute("findCollectionForm") CollectedSampleBackingForm form,
       BindingResult result, Model model) {
 
-    List<Collection> collections = collectionRepository
+    List<CollectedSample> collections = collectionRepository
         .findAnyCollectionMatching(form.getCollectionNumber(),
             form.getSampleNumber(), form.getShippingNumber(),
             form.getDateCollectedFrom(), form.getDateCollectedTo(),
@@ -98,7 +97,7 @@ public class CollectionsController {
       @RequestParam(value = "collectionNumber", required = false) String collectionNumber,
       @RequestParam(value = "isDialog", required = false) String isDialog) {
 
-    CollectionBackingForm form = new CollectionBackingForm();
+    CollectedSampleBackingForm form = new CollectedSampleBackingForm();
     Map<String, Object> m = model.asMap();
     List<String> centers = locationRepository.getAllCentersAsString();
     m.put("centers", centers);
@@ -112,16 +111,14 @@ public class CollectionsController {
 
     if (collectionNumber != null) {
       form.setCollectionNumber(collectionNumber);
-      Collection collection = collectionRepository
+      CollectedSample collection = collectionRepository
           .findCollectionByNumber(collectionNumber);
       if (collection != null) {
-        form = new CollectionBackingForm(collection);
-        m.put("selectedCenter",
-            locationRepository.getLocation(collection.getCenterId()).getName());
-        m.put("selectedSite",
-            locationRepository.getLocation(collection.getSiteId()).getName());
+        form = new CollectedSampleBackingForm(collection);
+        m.put("selectedCenter", collection.getCenter().getName());
+        m.put("selectedSite", collection.getSite().getName());
       } else
-        form = new CollectionBackingForm();
+        form = new CollectedSampleBackingForm();
     }
     m.put("editCollectionForm", form);
     // to ensure custom field names are displayed in the form
@@ -134,19 +131,17 @@ public class CollectionsController {
   @RequestMapping(value = "/updateCollection", method = RequestMethod.POST)
   public @ResponseBody
   Map<String, ? extends Object> updateOrAddCollection(
-      @ModelAttribute("editCollectionForm") CollectionBackingForm form,
+      @ModelAttribute("editCollectionForm") CollectedSampleBackingForm form,
       BindingResult result, Model model) {
 
     boolean success = true;
     String errMsg = "";
     try {
-      Collection collection = form.getCollection();
+      CollectedSample collection = form.getCollection();
       String center = form.getCenters().get(0);
-      Long centerId = locationRepository.getIDByName(center);
-      collection.setCenterId(centerId);
+      collection.setCenter(locationRepository.getLocationByName(center));
       String site = form.getSites().get(0);
-      Long siteId = locationRepository.getIDByName(site);
-      collection.setSiteId(siteId);
+      collection.setSite(locationRepository.getLocationByName(site));
       collectionRepository.updateOrAddCollection(collection);
     } catch (EntityExistsException ex) {
       // TODO: Replace with logger
@@ -170,11 +165,11 @@ public class CollectionsController {
   }
 
   private List<CollectionViewModel> getCollectionViewModels(
-      List<Collection> collections) {
+      List<CollectedSample> collections) {
     if (collections == null)
       return Arrays.asList(new CollectionViewModel[0]);
     List<CollectionViewModel> collectionViewModels = new ArrayList<CollectionViewModel>();
-    for (Collection collection : collections) {
+    for (CollectedSample collection : collections) {
       collectionViewModels.add(new CollectionViewModel(collection,
           locationRepository.getAllCollectionSites(), locationRepository
               .getAllCenters()));
@@ -201,98 +196,9 @@ public class CollectionsController {
   public ModelAndView addCollectionFormTabInit(Model model) {
     ModelAndView mv = new ModelAndView("editCollectionForm");
     Map<String, Object> m = model.asMap();
-    m.put("editCollectionForm", new CollectionBackingForm());
+    m.put("editCollectionForm", new CollectedSampleBackingForm());
     mv.addObject("model", m);
     return mv;
-  }
-
-  @RequestMapping("/addCollection")
-  public ModelAndView addCollection(@RequestParam Map<String, String> params,
-      HttpServletRequest request) {
-
-    RecordFieldsConfig collectionFields = recordFieldsConfigRepository
-        .getRecordFieldsConfig("collection");
-    Collection collection = new Collection(
-        params.get("collectionNumber"),
-        ControllerUtil.getOptionalParamValue(
-            getParam(params, "collectionCenter"), collectionFields, "center"),
-        ControllerUtil.getOptionalParamValue(
-            getParam(params, "collectionSite"), collectionFields, "site"),
-        getDate(params.get("collectionDate")),
-        ControllerUtil.getOptionalParamValue(getParam(params, "sampleNumber"),
-            collectionFields, "sampleNo"),
-        ControllerUtil.getOptionalParamValue(
-            getParam(params, "shippingNumber"), collectionFields, "shippingNo"),
-        ControllerUtil.getOptionalParamValue(
-            params.get("collectionDonorNumber"), collectionFields, "donorNo"),
-        ControllerUtil.getOptionalParamValue(params.get("donorType"),
-            collectionFields, "donorType"), Boolean.FALSE, ControllerUtil
-            .getOptionalParamValue(params.get("collectionComment"),
-                collectionFields, "comment"));
-    collectionRepository.saveCollection(collection);
-    ModelAndView modelAndView = new ModelAndView("collections");
-    Map<String, Object> model = new HashMap<String, Object>();
-    model.put("addedCollection", true);
-    model.put("hasCollection", true);
-    model.put("collection", new CollectionViewModel(collection));
-    addCentersToModel(model);
-    addCollectionSitesToModel(model);
-    ControllerUtil.addCollectionDisplayNamesToModel(model,
-        displayNamesRepository);
-
-    ControllerUtil.addFieldsToDisplay("collection", model,
-        recordFieldsConfigRepository);
-
-    modelAndView.addObject("model", model);
-    return modelAndView;
-  }
-
-  @RequestMapping("/updateCollection")
-  public ModelAndView updateCollection(
-      @RequestParam Map<String, String> params, HttpServletRequest request) {
-    Long collectionId = getParam(params, "updateCollectionId");
-    RecordFieldsConfig collectionFields = recordFieldsConfigRepository
-        .getRecordFieldsConfig("collection");
-
-    Collection collection = new Collection(
-        params.get("updateCollectionNumber"),
-        ControllerUtil.getOptionalParamValue(
-            getParam(params, "updateCollectionCenter"), collectionFields,
-            "center"),
-        ControllerUtil.getOptionalParamValue(
-            getParam(params, "updateCollectionSite"), collectionFields, "site"),
-        getDate(params.get("updateCollectionDate")), ControllerUtil
-            .getOptionalParamValue(getParam(params, "updateSampleNumber"),
-                collectionFields, "sampleNo"), ControllerUtil
-            .getOptionalParamValue(getParam(params, "updateShippingNumber"),
-                collectionFields, "shippingNo"), ControllerUtil
-            .getOptionalParamValue(params.get("updateCollectionDonorNumber"),
-                collectionFields, "donorNo"), ControllerUtil
-            .getOptionalParamValue(params.get("updateDonorType"),
-                collectionFields, "donorType"), Boolean.FALSE, ControllerUtil
-            .getOptionalParamValue(params.get("updateCollectionComment"),
-                collectionFields, "comment"));
-    Collection existingCollection = collectionRepository
-        .findCollectionById(collectionId);
-    collection.setAbo(existingCollection.getAbo());
-    collection.setRhd(existingCollection.getRhd());
-    existingCollection = collectionRepository.updateCollection(collection,
-        collectionId);
-    ModelAndView modelAndView = new ModelAndView("collections");
-    Map<String, Object> model = new HashMap<String, Object>();
-    model.put("updatedCollection", true);
-    model.put("hasCollection", true);
-    addCentersToModel(model);
-    addCollectionSitesToModel(model);
-    ControllerUtil.addCollectionDisplayNamesToModel(model,
-        displayNamesRepository);
-
-    ControllerUtil.addFieldsToDisplay("collection", model,
-        recordFieldsConfigRepository);
-
-    model.put("collection", new CollectionViewModel(existingCollection));
-    modelAndView.addObject("model", model);
-    return modelAndView;
   }
 
   @RequestMapping(value = "/deleteCollection", method = RequestMethod.POST)
@@ -316,27 +222,6 @@ public class CollectionsController {
     m.put("success", success);
     m.put("errMsg", errMsg);
     return m;
-  }
-
-  private Long getParam(Map<String, String> params, String paramName) {
-    String paramValue = params.get(paramName);
-    return paramValue == null || paramValue.isEmpty() ? null : Long
-        .parseLong(paramValue);
-  }
-
-  private Date getDate(String dateParam) {
-    DateFormat formatter;
-    formatter = new SimpleDateFormat("MM/dd/yyyy");
-    Date collectionDate = null;
-    try {
-      String collectionDateEntered = dateParam;
-      if (collectionDateEntered.length() > 0) {
-        collectionDate = (Date) formatter.parse(collectionDateEntered);
-      }
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    return collectionDate;
   }
 
   private void addCentersToModel(Map<String, Object> model) {

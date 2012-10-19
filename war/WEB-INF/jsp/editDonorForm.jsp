@@ -47,6 +47,11 @@
 <form:form method="POST" commandName="editDonorForm"
 	id="editDonorForm-${formId}">
 	<div class="editDialog">
+		<c:if test="${model.isDialog != 'yes' }">
+			<div>
+				<b>Add a Donor</b>
+			</div>
+		</c:if>
 		<div>
 			<form:label path="donorNumber">${model.donorIDDisplayName}</form:label>
 			<form:input path="donorNumber" />

@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import model.Collection;
+import model.CollectedSample;
 import model.Donor;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -179,14 +179,14 @@ public class DonorRepository {
     return query.getResultList();
   }
 
-  public List<Collection> getDonorHistory(String donorNumber) {
-    TypedQuery<Collection> query = em
+  public List<CollectedSample> getDonorHistory(String donorNumber) {
+    TypedQuery<CollectedSample> query = em
         .createQuery(
             "SELECT c FROM Collection c WHERE c.donorNumber = :donorNumber and c.isDeleted= :isDeleted",
-            Collection.class);
+            CollectedSample.class);
     query.setParameter("isDeleted", Boolean.FALSE);
     query.setParameter("donorNumber", donorNumber);
-    List<Collection> collections = query.getResultList();
+    List<CollectedSample> collections = query.getResultList();
     if (org.springframework.util.CollectionUtils.isEmpty(collections)) {
       return null;
     }

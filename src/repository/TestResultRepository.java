@@ -69,13 +69,6 @@ public class TestResultRepository {
     return testResults;
   }
 
-  public void deleteTestResult(String collectionNumber) {
-    TestResult existingTestResult = findTestResultByCollectionNumber(collectionNumber);
-    existingTestResult.setIsDeleted(Boolean.TRUE);
-    em.merge(existingTestResult);
-    em.flush();
-  }
-
   public List<TestResult> getAllTestResults(String collectionNumber) {
     Query query = em
         .createQuery(
@@ -141,23 +134,9 @@ public class TestResultRepository {
     return resultList;
   }
 
-  public TestResult findTestResultByCollectionNumber(String collectionNumber) {
-    TypedQuery<TestResult> query = em
-        .createQuery(
-            "SELECT t FROM TestResult t WHERE t.collectionNumber = :collectionNumber and t.isDeleted= :isDeleted",
-            TestResult.class);
-    query.setParameter("isDeleted", Boolean.FALSE);
-    query.setParameter("collectionNumber", collectionNumber);
-    List<TestResult> testResults = query.getResultList();
-    if (CollectionUtils.isEmpty(testResults)) {
-      return null;
-    }
-    return testResults.get(0);
-  }
-
   public TestResult updateOrAddTestResult(TestResult testResult) {
-    TestResult existingTestResult = findTestResultByCollectionNumber(testResult
-        .getCollectionNumber());
+    TestResult existingTestResult = findTestResult(testResult
+        .getCollectedSample().getCollectionNumber(), testResult.getName());
     if (existingTestResult == null) {
       testResult.setIsDeleted(false);
       saveTestResult(testResult);
@@ -270,6 +249,57 @@ public class TestResultRepository {
       }
     }
     return m;
+  }
+
+  public List<TestResult> findAnyTestResultMatching(String collectionNumber,
+      List<String> tests, String dateTestedFrom, String dateTestedTo) {
+
+    TypedQuery<TestResult> query = em.createQuery(
+        "SELECT t FROM TestResult t WHERE "
+            + "(t.collectionNumber = :collectionNumber OR "
+            + "(t.name in (:tests) AND t.result='reactive'))" + "AND"
+            + "(t.dateTested BETWEEN :dateTestedFrom and :dateTestedTo) AND "
+            + "(t.isDeleted= :isDeleted)", TestResult.class);
+
+    query.setParameter("isDeleted", Boolean.FALSE);
+    String collectionNo = ((collectionNumber == null) ? "" : collectionNumber);
+    query.setParameter("collectionNumber", collectionNo);
+    query.setParameter("tests", tests);
+
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    try {
+      Date from = (dateTestedFrom == null || dateTestedFrom.equals("")) ? dateFormat
+          .parse("12/31/1970") : dateFormat.parse(dateTestedFrom);
+      query.setParameter("dateTestedFrom", from);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    try {
+      Date to = (dateTestedTo == null || dateTestedTo.equals("")) ? dateFormat
+          .parse(dateFormat.format(new Date())) : dateFormat
+          .parse(dateTestedTo);
+      query.setParameter("dateTestedTo", to);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    List<TestResult> resultList = query.getResultList();
+    return resultList;
+  }
+
+  public TestResult findTestResult(String collectionNumber, String name) {
+    TypedQuery<TestResult> query = em.createQuery(
+        "SELECT t FROM TestResult t WHERE "
+            + "t.collectionNumber = :collectionNumber AND "
+            + "t.name = :name AND " + "t.isDeleted= :isDeleted",
+        TestResult.class);
+    query.setParameter("isDeleted", Boolean.FALSE);
+    query.setParameter("collectionNumber", collectionNumber);
+    List<TestResult> testResults = query.getResultList();
+    if (CollectionUtils.isEmpty(testResults)) {
+      return null;
+    }
+    return testResults.get(0);
   }
 
 }

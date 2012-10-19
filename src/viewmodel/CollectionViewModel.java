@@ -2,21 +2,26 @@ package viewmodel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import model.Collection;
+import model.CollectedSample;
+import model.Donor;
+import model.DonorType;
 import model.Location;
+import model.TestResult;
+import model.User;
 
 public class CollectionViewModel {
-	private Collection collection;
+	private CollectedSample collection;
 	private List<Location> allCollectionSites;
 	private List<Location> allCenters;
 
-	public CollectionViewModel(Collection collection) {
+	public CollectionViewModel(CollectedSample collection) {
 		this.collection = collection;
 	}
 
-	public CollectionViewModel(Collection collection,
+	public CollectionViewModel(CollectedSample collection,
 			List<Location> allCollectionSites, List<Location> allCenters) {
 
 		this.collection = collection;
@@ -24,81 +29,81 @@ public class CollectionViewModel {
 		this.allCenters = allCenters;
 	}
 
-	public String getCollectionId() {
-		return getStringValue(collection.getCollectionId());
-	}
+  public void copy(CollectedSample collection) {
+    collection.copy(collection);
+  }
 
-	public String getCenterId() {
-		return getStringValue(collection.getCenterId());
-	}
+  public boolean equals(Object obj) {
+    return collection.equals(obj);
+  }
 
-	public String getCenterName() {
-		Long centerId = collection.getCenterId();
-		if (allCenters != null && centerId != null) {
-			for (Location center : allCenters) {
-				if (center.getLocationId().equals(centerId)) {
-					return center.getName();
-				}
-			}
-		}
-		return "";
-	}
+  public Long getId() {
+    return collection.getId();
+  }
 
-	public String getSiteId() {
-		return getStringValue(collection.getSiteId());
-	}
+  public String getCollectionNumber() {
+    return collection.getCollectionNumber();
+  }
 
-	public String getSiteName() {
-		Long siteId = collection.getSiteId();
-		if (allCollectionSites != null && siteId != null) {
-			for (Location site : allCollectionSites) {
-				if (site.getLocationId().equals(siteId)) {
-					return site.getName();
-				}
-			}
-		}
-		return "";
-	}
+  public Donor getDonor() {
+    return collection.getDonor();
+  }
 
-	public String getDateCollected() {
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-		return formatter.format(collection.getDateCollected());
-	}
+  public List<TestResult> getTestResults() {
+    return collection.getTestResults();
+  }
 
-	public String getSampleNumber() {
-		return getStringValue(collection.getSampleNumber());
-	}
+  public Location getCenter() {
+    return collection.getCenter();
+  }
 
-	public String getShippingNumber() {
-		return getStringValue(collection.getShippingNumber());
-	}
+  public Location getSite() {
+    return collection.getSite();
+  }
 
-	public String getDonorNumber() {
-		return collection.getDonorNumber();
+  public String getCollectedOn() {
+    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    return formatter.format(collection.getCollectedOn());
+  }
 
-	}
+  public DonorType getDonorType() {
+    return collection.getDonorType();
+  }
 
-	public String getComment() {
-		return collection.getComments();
-	}
+  public String getContactNumber() {
+    return collection.getContactNumber();
+  }
 
-	public String getDonorType() {
-		return collection.getDonorType();
-	}
+  public String getSampleNumber() {
+    return collection.getSampleNumber();
+  }
 
-	public String getCollectionNumber() {
-		return collection.getCollectionNumber();
-	}
+  public String getShippingNumber() {
+    return collection.getShippingNumber();
+  }
 
-	public String getAbo() {
-		return collection.getAbo();
-	}
+  public Date getLastUpdated() {
+    return collection.getLastUpdated();
+  }
 
-	public String getRhd() {
-		return collection.getRhd();
-	}
+  public Date getCreatedDate() {
+    return collection.getCreatedDate();
+  }
 
-	private String getStringValue(Long value) {
-		return value == null ? "" : value.toString();
-	}
+  public User getCreatedBy() {
+    return collection.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return collection.getLastUpdatedBy();
+  }
+
+  public String getNotes() {
+    return collection.getNotes();
+  }
+
+  public Boolean getIsDeleted() {
+    return collection.getIsDeleted();
+  }
+
 }

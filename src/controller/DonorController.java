@@ -1,8 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +9,8 @@ import java.util.Map;
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 
-import model.Collection;
 import model.Donor;
 import model.DonorBackingForm;
-import model.Location;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +30,6 @@ import repository.LocationRepository;
 import repository.RecordFieldsConfigRepository;
 import repository.UserRepository;
 import utils.ControllerUtil;
-import viewmodel.CollectionViewModel;
 import viewmodel.DonorViewModel;
 
 @Controller
@@ -211,30 +206,6 @@ public class DonorController {
     return modelAndView;
   }
 
-  @RequestMapping("/selectDonor")
-  public ModelAndView selectDonor(@RequestParam Map<String, String> params,
-      HttpServletRequest request) {
-
-    Donor donor = donorRepository.findDonorById(getParam(params,
-        "selectedDonorId"));
-    ModelAndView modelAndView = new ModelAndView("donors");
-    Map<String, Object> model = new HashMap<String, Object>();
-    model.put("singleDonorFound", true);
-    model.put("displayDonorNumber", donor.getDonorNumber());
-    model.put("displayFirstName", donor.getFirstName());
-    model.put("displayLastName", donor.getLastName());
-    model.put("hasDonor", true);
-    model.put("donor", new DonorViewModel(donor));
-    ControllerUtil.addDonorDisplayNamesToModel(model, displayNamesRepository);
-    addDonorHistory(donor.getDonorNumber(), model);
-    ControllerUtil.addFieldsToDisplay("donor", model,
-        recordFieldsConfigRepository);
-    ControllerUtil.addFieldsToDisplay("collection", model,
-        recordFieldsConfigRepository);
-    modelAndView.addObject("model", model);
-    return modelAndView;
-  }
-
   @RequestMapping("/viewDonors")
   public ModelAndView viewAllDonors(@RequestParam Map<String, String> params,
       HttpServletRequest request) {
@@ -283,40 +254,5 @@ public class DonorController {
     String paramValue = params.get(paramName);
     return paramValue == null || paramValue.isEmpty() ? null : Long
         .parseLong(paramValue);
-  }
-
-  private Integer getIntParam(Map<String, String> params, String paramName) {
-    String paramValue = params.get(paramName);
-    return paramValue == null || paramValue.isEmpty() ? null : Integer
-        .parseInt(paramValue);
-  }
-
-  private void addDonorHistory(String donorNumber, Map<String, Object> model) {
-    List<Collection> donorCollections = donorRepository
-        .getDonorHistory(donorNumber);
-    if (donorCollections != null) {
-      Collections.sort(donorCollections, new Comparator<Collection>() {
-        public int compare(Collection collection, Collection collection1) {
-          return collection1.getDateCollected().compareTo(
-              collection.getDateCollected());
-        }
-      });
-      model.put("donorHistory", getCollectionViewModel(donorCollections));
-      ControllerUtil.addCollectionDisplayNamesToModel(model,
-          displayNamesRepository);
-    }
-  }
-
-  private List<CollectionViewModel> getCollectionViewModel(
-      List<Collection> donorCollections) {
-    ArrayList<CollectionViewModel> collectionViewModels = new ArrayList<CollectionViewModel>();
-    List<Location> allCollectionSites = locationRepository
-        .getAllCollectionSites();
-    List<Location> allCenters = locationRepository.getAllCenters();
-    for (Collection donorCollection : donorCollections) {
-      collectionViewModels.add(new CollectionViewModel(donorCollection,
-          allCollectionSites, allCenters));
-    }
-    return collectionViewModels;
   }
 }

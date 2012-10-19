@@ -2,156 +2,137 @@ package model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class TestResult {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long testResultId;
-	private String collectionNumber;
-	private Date dateCollected;
-	private Date dateTested;
+  @Column(nullable=false)
+	private Long id;
 
-	private String hiv;
-	private String hbv;
-	private String hcv;
-	private String syphilis;
-	private String abo;
-	private String rhd;
-	private String comments;
+	@ManyToOne(optional=false)
+	private CollectedSample collectedSample;
 
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	private Boolean isDeleted;
+  @Temporal(TemporalType.TIMESTAMP)
+	private Date testedOn;
 
-	public TestResult() {
-	}
+	private String name;
+	private String result;
 
-	public TestResult(String collectionNumber, Date dateCollected,
-			Date dateTested, String hiv, String hbv, String hcv,
-			String syphilis, String abo, String rhd, Boolean deleted,
-			String comments) {
-		this.collectionNumber = collectionNumber;
-		this.dateCollected = dateCollected;
-		this.dateTested = dateTested;
-		this.comments = comments;
-		this.hiv = hiv;
-		this.hbv = hbv;
-		this.hcv = hcv;
-		this.syphilis = syphilis;
-		this.abo = abo;
-		this.rhd = rhd;
-		isDeleted = deleted;
-	}
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastUpdated;
 
-	public void copy(TestResult otherTestResult) {
-		this.collectionNumber = otherTestResult.collectionNumber;
-		this.dateCollected = otherTestResult.dateCollected;
-		this.dateTested = otherTestResult.dateTested;
-		this.comments = otherTestResult.comments;
-		this.hiv = otherTestResult.hiv;
-		this.hbv = otherTestResult.hbv;
-		this.hcv = otherTestResult.hcv;
-		this.syphilis = otherTestResult.syphilis;
-		this.abo = otherTestResult.abo;
-		this.rhd = otherTestResult.rhd;
-		isDeleted = otherTestResult.isDeleted;
-	}
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDate;
 
-	public Long getTestResultId() {
-		return testResultId;
-	}
+  @ManyToOne
+  private User createdBy;
 
-	public String getCollectionNumber() {
-		return collectionNumber;
-	}
+  @ManyToOne
+  private User lastUpdatedBy;
 
-	public void setCollectionNumber(String collectionNumber) {
-		this.collectionNumber = collectionNumber;
-	}
+	@Lob
+	private String notes;
 
-	public Date getDateCollected() {
-		return dateCollected;
-	}
+  private Boolean isDeleted;
 
-	public void setDateCollected(Date dateCollected) {
-		this.dateCollected = dateCollected;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public Date getDateTested() {
-		return dateTested;
-	}
+  public CollectedSample getCollectedSample() {
+    return collectedSample;
+  }
 
-	public void setDateTested(Date dateTested) {
-		this.dateTested = dateTested;
-	}
+  public Date getTestedOn() {
+    return testedOn;
+  }
 
-	public String getComments() {
-		return comments;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+  public String getResult() {
+    return result;
+  }
 
-	public String getHiv() {
-		return hiv;
-	}
+  public Date getLastUpdated() {
+    return lastUpdated;
+  }
 
-	public void setHiv(String hiv) {
-		this.hiv = hiv;
-	}
+  public Date getCreatedDate() {
+    return createdDate;
+  }
 
-	public String getHbv() {
-		return hbv;
-	}
+  public User getCreatedBy() {
+    return createdBy;
+  }
 
-	public void setHbv(String hbv) {
-		this.hbv = hbv;
-	}
+  public User getLastUpdatedBy() {
+    return lastUpdatedBy;
+  }
 
-	public String getHcv() {
-		return hcv;
-	}
+  public String getNotes() {
+    return notes;
+  }
 
-	public void setHcv(String hcv) {
-		this.hcv = hcv;
-	}
+  public Boolean getIsDeleted() {
+    return isDeleted;
+  }
 
-	public String getSyphilis() {
-		return syphilis;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setSyphilis(String syphilis) {
-		this.syphilis = syphilis;
-	}
+  public void setCollectedSample(CollectedSample collectedSample) {
+    this.collectedSample = collectedSample;
+  }
 
-	public String getAbo() {
-		return abo;
-	}
+  public void setTestedOn(Date testedOn) {
+    this.testedOn = testedOn;
+  }
 
-	public void setAbo(String abo) {
-		this.abo = abo;
-	}
+  public void setName(String testName) {
+    this.name = testName;
+  }
 
-	public String getRhd() {
-		return rhd;
-	}
+  public void setResult(String testResult) {
+    this.result = testResult;
+  }
 
-	public void setRhd(String rhd) {
-		this.rhd = rhd;
-	}
+  public void setLastUpdated(Date lastUpdated) {
+    this.lastUpdated = lastUpdated;
+  }
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
 
-	public void setIsDeleted(Boolean deleted) {
-		isDeleted = deleted;
-	}
+  public void setCreatedBy(User createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    this.lastUpdatedBy = lastUpdatedBy;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public void setIsDeleted(Boolean isDeleted) {
+    this.isDeleted = isDeleted;
+  }
+
+  public void copy(TestResult otherTestResult) {
+  }
 }

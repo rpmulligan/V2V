@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -62,17 +64,20 @@ public class Donor implements TimeStamped {
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdDate;
 
-  @Lob
-	private String notes;
-
-	private Boolean isDeleted;
-
   @ManyToOne
   private User createdBy;
 
   @ManyToOne
   private User lastUpdatedBy;
 
+  @Lob
+	private String notes;
+
+	private Boolean isDeleted;
+
+  @OneToMany(mappedBy="donor")
+  private List<CollectedSample> collectedSamples;
+  
 	public Donor() {
 	}
 
@@ -252,6 +257,14 @@ public class Donor implements TimeStamped {
     setContactNumber(donor.getContactNumber());
     setNotes(donor.getNotes());
     setGender(donor.getGender());
+  }
+
+  public List<CollectedSample> getCollectedSamples() {
+    return collectedSamples;
+  }
+
+  public void setCollectedSamples(List<CollectedSample> collectedSamples) {
+    this.collectedSamples = collectedSamples;
   }
 
 }

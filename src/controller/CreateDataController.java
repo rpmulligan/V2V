@@ -12,13 +12,11 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import model.Collection;
-import model.Donor;
+import model.CollectedSample;
 import model.Location;
 import model.LocationType;
 import model.Product;
 import model.Request;
-import model.TestResult;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -460,40 +458,40 @@ public class CreateDataController {
 	}
 
 	private void createCollectionsWithTestResults(int collectionNumber) {
-		List<Location> sites = locationRepository.getAllCollectionSites();
-		List<Location> centers = locationRepository.getAllCenters();
-		List<Donor> donors = donorRepository.getAllDonors();
-		String[] donorTypes = { "family", "voluntary", "other" };
-		for (int i = 0; i < collectionNumber; i++) {
-			Integer collectionNo = new Integer(i + 1);
-			Long centerId = centers.get(r.nextInt(centers.size()))
-					.getLocationId();
-			Long siteId = sites.get(r.nextInt(sites.size())).getLocationId();
-			String donorNo = donors.get(r.nextInt(donors.size()))
-					.getDonorNumber();
-			Long sampleNo = (long) (r.nextInt(5000));
-			Long shippingNo = (long) (r.nextInt(5000));
-			Collection collection = new Collection(collectionNo.toString(),
-					centerId, siteId, getRandomCollectionDate(), sampleNo,
-					shippingNo, donorNo,
-					donorTypes[r.nextInt(donorTypes.length)],
-					bloodTypes[r.nextInt(bloodTypes.length)],
-					rhd[r.nextInt(rhd.length)], Boolean.FALSE, "comment_" + i);
-			collectionRepository.saveCollection(collection);
-			TestResult testResult = new TestResult(
-					collection.getCollectionNumber(),
-					collection.getDateCollected(),
-					new DateTime(collection.getDateCollected()).plusDays(1)
-							.toDate(), getRandomTestResult(),
-					getRandomTestResult(), getRandomTestResult(),
-					getRandomTestResult(), collection.getAbo(),
-					collection.getRhd(), Boolean.FALSE, "comment_" + i);
-			testResultRepository.saveTestResult(testResult);
-		}
+//		List<Location> sites = locationRepository.getAllCollectionSites();
+//		List<Location> centers = locationRepository.getAllCenters();
+//		List<Donor> donors = donorRepository.getAllDonors();
+//		String[] donorTypes = { "family", "voluntary", "other" };
+//		for (int i = 0; i < collectionNumber; i++) {
+//			Integer collectionNo = new Integer(i + 1);
+//			Long centerId = centers.get(r.nextInt(centers.size()))
+//					.getLocationId();
+//			Long siteId = sites.get(r.nextInt(sites.size())).getLocationId();
+//			String donorNo = donors.get(r.nextInt(donors.size()))
+//					.getDonorNumber();
+//			Long sampleNo = (long) (r.nextInt(5000));
+//			Long shippingNo = (long) (r.nextInt(5000));
+//			CollectedSample collection = new CollectedSample(collectionNo.toString(),
+//					centerId, siteId, getRandomCollectionDate(), sampleNo,
+//					shippingNo, donorNo,
+//					donorTypes[r.nextInt(donorTypes.length)],
+//					bloodTypes[r.nextInt(bloodTypes.length)],
+//					rhd[r.nextInt(rhd.length)], Boolean.FALSE, "comment_" + i);
+//			collectionRepository.saveCollection(collection);
+//			TestResult testResult = new TestResult(
+//					collection.getCollectionNumber(),
+//					collection.getDateCollected(),
+//					new DateTime(collection.getDateCollected()).plusDays(1)
+//							.toDate(), getRandomTestResult(),
+//					getRandomTestResult(), getRandomTestResult(),
+//					getRandomTestResult(), collection.getAbo(),
+//					collection.getRhd(), Boolean.FALSE, "comment_" + i);
+//			testResultRepository.saveTestResult(testResult);
+//		}
 	}
 
 	private void createProducts(int productNumber) {
-		List<Collection> collections = collectionRepository.getAllCollections();
+		List<CollectedSample> collections = collectionRepository.getAllCollections();
 		for (int i = 0; i < productNumber; i++) {
 			Product product = new Product(new Integer(i + 1).toString(),
 					collections.get(r.nextInt(collections.size())),

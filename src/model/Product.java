@@ -34,13 +34,13 @@ public class Product {
   public Product() {
   }
 
-  public Product(String productNumber, Collection collection, String type,
+  public Product(String productNumber, CollectedSample collection, String type,
       Boolean isDeleted, Boolean isIssued, String comments) {
     this.productNumber = productNumber;
     this.isDeleted = isDeleted;
     if (collection != null) {
       this.collectionNumber = collection.getCollectionNumber();
-      this.dateCollected = collection.getDateCollected();
+      this.dateCollected = collection.getCollectedOn();
     }
     this.type = type;
     this.isIssued = isIssued;
