@@ -45,9 +45,6 @@ public class CollectedSample {
   private DonorType donorType;
 
   @Column(length=50)
-  private String contactNumber;
-
-  @Column(length=50)
   private String sampleNumber;
 
   @Column(length=50)
@@ -106,10 +103,6 @@ public class CollectedSample {
 
   public DonorType getDonorType() {
     return donorType;
-  }
-
-  public String getContactNumber() {
-    return contactNumber;
   }
 
   public String getSampleNumber() {
@@ -174,10 +167,6 @@ public class CollectedSample {
 
   public void setDonorType(DonorType donorType) {
     this.donorType = donorType;
-  }
-
-  public void setContactNumber(String contactNumber) {
-    this.contactNumber = contactNumber;
   }
 
   public void setSampleNumber(String sampleNumber) {

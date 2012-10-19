@@ -70,10 +70,6 @@ public class CollectionViewModel {
     return collection.getDonorType();
   }
 
-  public String getContactNumber() {
-    return collection.getContactNumber();
-  }
-
   public String getSampleNumber() {
     return collection.getSampleNumber();
   }

@@ -124,10 +124,6 @@ public class CollectedSampleBackingForm {
     return collection.getDonorType();
   }
 
-  public String getContactNumber() {
-    return collection.getContactNumber();
-  }
-
   public String getSampleNumber() {
     return collection.getSampleNumber();
   }
@@ -198,10 +194,6 @@ public class CollectedSampleBackingForm {
 
   public void setDonorType(DonorType donorType) {
     collection.setDonorType(donorType);
-  }
-
-  public void setContactNumber(String contactNumber) {
-    collection.setContactNumber(contactNumber);
   }
 
   public void setSampleNumber(String sampleNumber) {
