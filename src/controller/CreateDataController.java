@@ -493,11 +493,11 @@ public class CreateDataController {
 	private void createProducts(int productNumber) {
 		List<CollectedSample> collections = collectionRepository.getAllCollections();
 		for (int i = 0; i < productNumber; i++) {
-			Product product = new Product(new Integer(i + 1).toString(),
-					collections.get(r.nextInt(collections.size())),
-					productTypes[r.nextInt(productTypes.length)],
-					Boolean.FALSE, Boolean.FALSE, "comment_" + i);
-			productRepository.saveProduct(product);
+//			Product product = new Product(new Integer(i + 1).toString(),
+//					collections.get(r.nextInt(collections.size())),
+//					productTypes[r.nextInt(productTypes.length)],
+//					Boolean.FALSE, Boolean.FALSE, "comment_" + i);
+//			productRepository.saveProduct(product);
 		}
 	}
 

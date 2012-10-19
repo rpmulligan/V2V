@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import model.CollectedSample;
 import model.Product;
 
 import org.joda.time.DateTime;
@@ -212,14 +213,13 @@ public class ProductRepository {
     Product existingProduct = findProductByProductNumber(product
         .getProductNumber());
     if (existingProduct == null) {
-      product.setIssued(Boolean.FALSE);
       product.setIsDeleted(false);
       saveProduct(product);
       return product;
     }
-    existingProduct.setCollectionNumber(product.getCollectionNumber());
+    CollectedSample collectedSample = product.getCollectedSample();
+    existingProduct.setCollectedSample(collectedSample);
     existingProduct.setType(product.getType());
-    product.setIssued(Boolean.FALSE);
     existingProduct.setIsDeleted(false);
     em.merge(existingProduct);
     em.flush();
@@ -235,7 +235,6 @@ public class ProductRepository {
 
   public void issueProduct(String productNumber) {
     Product existingProduct = findProductByProductNumber(productNumber);
-    existingProduct.setIssued(Boolean.TRUE);
     em.merge(existingProduct);
     em.flush();
   }

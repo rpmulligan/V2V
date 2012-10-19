@@ -75,7 +75,7 @@ public class ProductsController {
       BindingResult result, Model model) {
 
     List<Product> products = productRepository.findAnyProductMatching(
-        form.getProductNumber(), form.getCollectionNumber(), form.getTypes(),
+        form.getProductNumber(), form.getCollectedSample().getCollectionNumber(), form.getTypes(),
         form.getAvailability());
 
     ModelAndView modelAndView = new ModelAndView("productsTable");
@@ -128,7 +128,7 @@ public class ProductsController {
     m.put("isDialog", isDialog);
     m.put("selectedType", "wholeBlood");
     if (productNumber != null) {
-      form.setCollectionNumber(productNumber);
+      form.setProductNumber(productNumber);
       Product product = productRepository
           .findProductByProductNumber(productNumber);
       if (product != null) {

@@ -1,6 +1,12 @@
 package viewmodel;
 
+import java.util.Date;
+
+import model.BloodAbo;
+import model.BloodRhd;
+import model.CollectedSample;
 import model.Product;
+import model.User;
 
 public class ProductViewModel {
 
@@ -18,30 +24,68 @@ public class ProductViewModel {
     product.copy(product);
   }
 
-  public boolean equals(Object obj) {
-    return product.equals(obj);
+  public BloodAbo getBloodAbo() {
+    return product.getBloodAbo();
   }
 
-  public String getCollectionNumber() {
-    return product.getCollectionNumber();
+  public BloodRhd getBloodRhd() {
+    return product.getBloodRhd();
   }
 
-  public String getComments() {
-    return product.getComments();
+  public Long getId() {
+    return product.getId();
   }
 
   public String getProductNumber() {
     return product.getProductNumber();
   }
 
+  public CollectedSample getCollectedSample() {
+    return product.getCollectedSample();
+  }
+
+  public Date getDateCollected() {
+    return product.getDateCollected();
+  }
+
   public String getType() {
     return product.getType();
   }
 
-  public String getisIssued() {
-    if (product == null || product.getIssued() == null)
-      return null;
-    return product.getIssued() ? "yes" : "no";
+  public String getAbo() {
+    return product.getAbo();
+  }
+
+  public String getRhd() {
+    return product.getRhd();
+  }
+
+  public Date getExpiryDate() {
+    return product.getExpiryDate();
+  }
+
+  public Date getLastUpdated() {
+    return product.getLastUpdated();
+  }
+
+  public Date getCreatedDate() {
+    return product.getCreatedDate();
+  }
+
+  public User getCreatedBy() {
+    return product.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return product.getLastUpdatedBy();
+  }
+
+  public String getNotes() {
+    return product.getNotes();
+  }
+
+  public Boolean getIsDeleted() {
+    return product.getIsDeleted();
   }
 
 }

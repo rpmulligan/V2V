@@ -138,21 +138,21 @@ public class IssueController {
 		int plateletsIssued = 0;
 		int partialPlateletsIssued = 0;
 		for (Long productId : productIds) {
-			Product product = productRepository.findProduct(productId);
-			Issue issue = new Issue(product.getProductNumber(),
-					getDate(dateIssued.get(product.getProductId())),
-					getSiteForIssue(sites, product), Boolean.FALSE,
-					product.getComments());
-			issueRepository.saveIssue(issue);
-			Product issuedProduct = new Product();
-			issuedProduct.copy(product);
-			issuedProduct.setIssued(Boolean.TRUE);
-			if (issuedProduct.getType().equals("platelets")) {
-				plateletsIssued++;
-			}
-			if (issuedProduct.getType().equals("partialPlatelets")) {
-				partialPlateletsIssued++;
-			}
+//			Product product = productRepository.findProduct(productId);
+//			Issue issue = new Issue(product.getProductNumber(),
+//					getDate(dateIssued.get(product.getProductId())),
+//					getSiteForIssue(sites, product), Boolean.FALSE,
+//					product.getComments());
+//			issueRepository.saveIssue(issue);
+//			Product issuedProduct = new Product();
+//			issuedProduct.copy(product);
+//			issuedProduct.setIssued(Boolean.TRUE);
+//			if (issuedProduct.getType().equals("platelets")) {
+//				plateletsIssued++;
+//			}
+//			if (issuedProduct.getType().equals("partialPlatelets")) {
+//				partialPlateletsIssued++;
+//			}
 		}
 		if (params.containsKey("requestId")) {
 			modelAndView = new ModelAndView("issueViewRequests");
@@ -191,10 +191,10 @@ public class IssueController {
 	}
 
 	private Long getSiteForIssue(TreeMap<Long, String> sites, Product product) {
-		String site = sites.get(product.getProductId());
-		if (StringUtils.hasText(site)) {
-			return Long.valueOf(site);
-		}
+//		String site = sites.get(product.getProductId());
+//		if (StringUtils.hasText(site)) {
+//			return Long.valueOf(site);
+//		}
 		return null;
 	}
 

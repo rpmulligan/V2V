@@ -1,5 +1,5 @@
 package model;
 
 public enum BloodRhd {
-  POSITIVE, NEGATIVE
+  POSITIVE, NEGATIVE, Unknown
 }

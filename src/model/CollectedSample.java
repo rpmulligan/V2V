@@ -53,12 +53,15 @@ public class CollectedSample {
   @Column(length=50)
   private String shippingNumber;
 
+  @OneToMany(mappedBy="collectedSample")
+  private List<Product> products;
+  
   @Temporal(TemporalType.TIMESTAMP)
   private Date lastUpdated;
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdDate;
-
+  
   @ManyToOne
   private User createdBy;
 
@@ -212,6 +215,14 @@ public class CollectedSample {
   public void copy(CollectedSample collection) {
     // TODO Auto-generated method stub
     
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
   }
 
 }

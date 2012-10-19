@@ -6,7 +6,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2012-10-18T18:00:17.466-0400")
+@Generated(value="Dali", date="2012-10-19T00:30:51.756-0400")
 @StaticMetamodel(CollectedSample.class)
 public class CollectedSample_ {
 	public static volatile SingularAttribute<CollectedSample, String> collectionNumber;
@@ -26,4 +26,5 @@ public class CollectedSample_ {
 	public static volatile SingularAttribute<CollectedSample, Date> collectedOn;
 	public static volatile SingularAttribute<CollectedSample, String> sampleNumber;
 	public static volatile SingularAttribute<CollectedSample, String> shippingNumber;
+	public static volatile ListAttribute<CollectedSample, Product> products;
 }
