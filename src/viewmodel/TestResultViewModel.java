@@ -6,7 +6,7 @@ import java.util.Date;
 
 import model.CollectedSample;
 import model.TestResult;
-import model.User;
+import model.user.User;
 
 public class TestResultViewModel {
 

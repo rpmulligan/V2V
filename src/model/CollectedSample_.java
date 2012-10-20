@@ -6,8 +6,9 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import model.donor.Donor;
+import model.modificationtracker.RowModificationTracker;
 
-@Generated(value="Dali", date="2012-10-19T23:58:36.073-0400")
+@Generated(value="Dali", date="2012-10-20T15:50:53.430-0400")
 @StaticMetamodel(CollectedSample.class)
 public class CollectedSample_ {
 	public static volatile SingularAttribute<CollectedSample, Long> id;
@@ -21,10 +22,7 @@ public class CollectedSample_ {
 	public static volatile SingularAttribute<CollectedSample, String> sampleNumber;
 	public static volatile SingularAttribute<CollectedSample, String> shippingNumber;
 	public static volatile ListAttribute<CollectedSample, Product> products;
-	public static volatile SingularAttribute<CollectedSample, Date> lastUpdated;
-	public static volatile SingularAttribute<CollectedSample, Date> createdDate;
-	public static volatile SingularAttribute<CollectedSample, User> createdBy;
-	public static volatile SingularAttribute<CollectedSample, User> lastUpdatedBy;
 	public static volatile SingularAttribute<CollectedSample, String> notes;
 	public static volatile SingularAttribute<CollectedSample, Boolean> isDeleted;
+	public static volatile SingularAttribute<CollectedSample, RowModificationTracker> modificationTracker;
 }

@@ -11,36 +11,37 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import model.BloodAbo;
 import model.BloodRhd;
 import model.CollectedSample;
 import model.Gender;
-import model.TimeStamped;
-import model.User;
+import model.address.ContactInformation;
+import model.modificationtracker.ModificationTracker;
+import model.modificationtracker.RowModificationTracker;
+import model.user.User;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
 @Entity
-public class Donor implements TimeStamped {
+public class Donor implements ModificationTracker {
 
   @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(nullable=false)
+  @Column(nullable=false, updatable=false, insertable=false)
 	private Long id;
 
   @NotBlank
   @Column(unique=true, length=30, nullable=false)
   private String donorNumber;
 
+  @NotBlank
   @Column(length=30, nullable=false)
   @Length(min=1, max=30)
 	private String firstName;
@@ -53,12 +54,15 @@ public class Donor implements TimeStamped {
   @Column(length=30)
 	private String lastName;
 
+  @Length(max=30)
   @Enumerated(EnumType.STRING)
 	private Gender gender;
 
+  @Length(max=30)
   @Enumerated(EnumType.STRING)
 	private BloodAbo bloodAbo;
 
+  @Length(max=30)
   @Enumerated(EnumType.STRING)
   private BloodRhd bloodRhd;
 
@@ -66,33 +70,15 @@ public class Donor implements TimeStamped {
   @Temporal(TemporalType.DATE)
 	private Date birthDate;
 
-  @Column(length=255)
-	private String address;
-  @Column(length=50)
-	private String city;
-  @Column(length=50)
-  private String state;
-  @Column(length=50)
-  private String country;
-
-  @Column(length=50)
-  private String contactNumber;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date lastUpdated;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-
-  @ManyToOne
-  private User createdBy;
-
-  @ManyToOne
-  private User lastUpdatedBy;
-
+  @Valid
+  private ContactInformation contactInformation;
+  
   @Lob
 	private String notes;
 
+  @Valid
+  private RowModificationTracker modificationTracker;
+  
 	private Boolean isDeleted;
 
   @OneToMany(mappedBy="donor")
@@ -100,11 +86,6 @@ public class Donor implements TimeStamped {
   
 	public Donor() {
 	}
-
-  @InitBinder
-  protected void initBinder(WebDataBinder binder) {
-    binder.setValidator(new DonorBackingFormValidator());
-  }
 
   public Long getId() {
     return id;
@@ -142,48 +123,12 @@ public class Donor implements TimeStamped {
     return birthDate;
   }
 
-  public String getAddress() {
-    return address;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public String getCountry() {
-    return country;
-  }
-
-  public String getContactNumber() {
-    return contactNumber;
-  }
-
-  public Date getLastUpdated() {
-    return lastUpdated;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
-  }
-
   public String getNotes() {
     return notes;
   }
 
   public Boolean getIsDeleted() {
     return isDeleted;
-  }
-
-  public User getCreatedBy() {
-    return createdBy;
-  }
-
-  public User getLastUpdatedBy() {
-    return lastUpdatedBy;
   }
 
   public void setId(Long id) {
@@ -222,34 +167,6 @@ public class Donor implements TimeStamped {
     this.birthDate = birthDate;
   }
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public void setContactNumber(String contactNumber) {
-    this.contactNumber = contactNumber;
-  }
-
-  public void setLastUpdated(Date lastUpdated) {
-    this.lastUpdated = lastUpdated;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
-  }
-
   public void setNotes(String notes) {
     this.notes = notes;
   }
@@ -258,28 +175,16 @@ public class Donor implements TimeStamped {
     this.isDeleted = isDeleted;
   }
 
-  public void setCreatedBy(User createdBy) {
-    this.createdBy = createdBy;
-  }
-
-  public void setLastUpdatedBy(User lastUpdatedBy) {
-    this.lastUpdatedBy = lastUpdatedBy;
-  }
-
   public void copy(Donor donor) {
     assert (donor.getId().equals(this.getId()));
     setDonorNumber(donor.getDonorNumber());
     setFirstName(donor.getFirstName());
     setMiddleName(donor.getMiddleName());
     setLastName(donor.getLastName());
-    setAddress(donor.getAddress());
+    contactInformation.copy(donor.getContactInformation());
     setBirthDate(donor.getBirthDate());
-    setCity(donor.getCity());
-    setState(donor.getState());
-    setCountry(donor.getCountry());
     setBloodAbo(donor.getBloodAbo());
     setBloodRhd(donor.getBloodRhd());
-    setContactNumber(donor.getContactNumber());
     setNotes(donor.getNotes());
     setGender(donor.getGender());
   }
@@ -292,4 +197,95 @@ public class Donor implements TimeStamped {
     this.collectedSamples = collectedSamples;
   }
 
+  public ContactInformation getContactInformation() {
+    return contactInformation;
+  }
+
+  public void setContactInformation(ContactInformation contactInformation) {
+    this.contactInformation = contactInformation;
+  }
+
+  public String getAddress() {
+    return contactInformation.getAddress();
+  }
+
+  public String getCity() {
+    return contactInformation.getCity();
+  }
+
+  public String getState() {
+    return contactInformation.getState();
+  }
+
+  public String getCountry() {
+    return contactInformation.getCountry();
+  }
+
+  public String getZipcode() {
+    return contactInformation.getZipcode();
+  }
+
+  public void setAddress(String address) {
+    contactInformation.setAddress(address);
+  }
+
+  public void setCity(String city) {
+    contactInformation.setCity(city);
+  }
+
+  public void setState(String state) {
+    contactInformation.setState(state);
+  }
+
+  public void setCountry(String country) {
+    contactInformation.setCountry(country);
+  }
+
+  public void setZipcode(String zipcode) {
+    contactInformation.setZipcode(zipcode);
+  }
+
+  public String getPhoneNumber() {
+    return contactInformation.getPhoneNumber();
+  }
+
+  public int hashCode() {
+    return contactInformation.hashCode();
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    contactInformation.setPhoneNumber(phoneNumber);
+  }
+
+  public Date getLastUpdated() {
+    return modificationTracker.getLastUpdated();
+  }
+
+  public Date getCreatedDate() {
+    return modificationTracker.getCreatedDate();
+  }
+
+  public User getCreatedBy() {
+    return modificationTracker.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return modificationTracker.getLastUpdatedBy();
+  }
+
+  public void setLastUpdated(Date lastUpdated) {
+    modificationTracker.setLastUpdated(lastUpdated);
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    modificationTracker.setCreatedDate(createdDate);
+  }
+
+  public void setCreatedBy(User createdBy) {
+    modificationTracker.setCreatedBy(createdBy);
+  }
+
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    modificationTracker.setLastUpdatedBy(lastUpdatedBy);
+  }
 }

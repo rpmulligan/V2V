@@ -1,4 +1,4 @@
-package model;
+package model.user;
 
 import java.util.Date;
 
@@ -8,15 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import model.modificationtracker.ModificationTracker;
+import model.modificationtracker.RowModificationTracker;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class User implements TimeStamped {
+public class User implements ModificationTracker {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,19 +56,15 @@ public class User implements TimeStamped {
   private Boolean isActive;
   private Boolean isAdmin;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date lastUpdated;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date lastLogin;
+  private RowModificationTracker modificationTracker;
 
   private Boolean isDeleted;
 
   @Lob
   private String notes;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastLogin;
 
   public User() {
   }
@@ -109,14 +107,6 @@ public class User implements TimeStamped {
 
   public Boolean getIsAdmin() {
     return isAdmin;
-  }
-
-  public Date getLastUpdated() {
-    return lastUpdated;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
   }
 
   public Date getLastLogin() {
@@ -169,14 +159,6 @@ public class User implements TimeStamped {
 
   public void setIsSuperuser(Boolean isAdmin) {
     this.isAdmin = isAdmin;
-  }
-
-  public void setLastUpdated(Date lastUpdated) {
-    this.lastUpdated = lastUpdated;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
   }
 
   public void setLastLogin(Date lastLogin) {

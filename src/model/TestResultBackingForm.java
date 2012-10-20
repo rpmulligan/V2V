@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import model.user.User;
+
 public class TestResultBackingForm {
   private TestResult testResult;
   private String dateTestedFrom;

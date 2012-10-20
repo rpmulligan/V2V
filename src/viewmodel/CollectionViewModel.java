@@ -9,8 +9,8 @@ import model.CollectedSample;
 import model.DonorType;
 import model.Location;
 import model.TestResult;
-import model.User;
 import model.donor.Donor;
+import model.user.User;
 
 public class CollectionViewModel {
 	private CollectedSample collection;

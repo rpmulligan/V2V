@@ -21,10 +21,6 @@ public class DonorBackingFormValidator implements Validator {
 
   @Override
   public void validate(Object obj, Errors errors) {
-    System.out.println("here");
-    System.out.println(obj);
-    System.out.println(errors);
     validator.validate(obj, errors);
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "donorNumber", "editDonorForm.donorNumber.empty");
   }
 }

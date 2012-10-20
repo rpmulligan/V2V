@@ -6,7 +6,7 @@ import model.BloodAbo;
 import model.BloodRhd;
 import model.CollectedSample;
 import model.Product;
-import model.User;
+import model.user.User;
 
 public class ProductViewModel {
 

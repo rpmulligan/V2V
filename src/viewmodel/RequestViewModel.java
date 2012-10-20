@@ -11,7 +11,7 @@ import model.Issue;
 import model.Location;
 import model.ProductType;
 import model.Request;
-import model.User;
+import model.user.User;
 
 public class RequestViewModel {
 	private Request request;

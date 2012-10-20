@@ -15,8 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import model.donor.Donor;
+import model.modificationtracker.RowModificationTracker;
+import model.user.User;
 
 @Entity
 public class CollectedSample {
@@ -54,19 +57,10 @@ public class CollectedSample {
 
   @OneToMany(mappedBy="collectedSample")
   private List<Product> products;
+
+  @Valid
+  private RowModificationTracker modificationTracker;
   
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date lastUpdated;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-  
-  @ManyToOne
-  private User createdBy;
-
-  @ManyToOne
-  private User lastUpdatedBy;
-
   @Lob
   private String notes;
 
@@ -113,22 +107,6 @@ public class CollectedSample {
 
   public String getShippingNumber() {
     return shippingNumber;
-  }
-
-  public Date getLastUpdated() {
-    return lastUpdated;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
-  }
-
-  public User getCreatedBy() {
-    return createdBy;
-  }
-
-  public User getLastUpdatedBy() {
-    return lastUpdatedBy;
   }
 
   public String getNotes() {
@@ -179,22 +157,6 @@ public class CollectedSample {
     this.shippingNumber = shippingNumber;
   }
 
-  public void setLastUpdated(Date lastUpdated) {
-    this.lastUpdated = lastUpdated;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public void setCreatedBy(User createdBy) {
-    this.createdBy = createdBy;
-  }
-
-  public void setLastUpdatedBy(User lastUpdatedBy) {
-    this.lastUpdatedBy = lastUpdatedBy;
-  }
-
   public void setNotes(String notes) {
     this.notes = notes;
   }
@@ -214,6 +176,42 @@ public class CollectedSample {
 
   public void setProducts(List<Product> products) {
     this.products = products;
+  }
+
+  public Date getLastUpdated() {
+    return modificationTracker.getLastUpdated();
+  }
+
+  public Date getCreatedDate() {
+    return modificationTracker.getCreatedDate();
+  }
+
+  public User getCreatedBy() {
+    return modificationTracker.getCreatedBy();
+  }
+
+  public User getLastUpdatedBy() {
+    return modificationTracker.getLastUpdatedBy();
+  }
+
+  public int hashCode() {
+    return modificationTracker.hashCode();
+  }
+
+  public void setLastUpdated(Date lastUpdated) {
+    modificationTracker.setLastUpdated(lastUpdated);
+  }
+
+  public void setCreatedDate(Date createdDate) {
+    modificationTracker.setCreatedDate(createdDate);
+  }
+
+  public void setCreatedBy(User createdBy) {
+    modificationTracker.setCreatedBy(createdBy);
+  }
+
+  public void setLastUpdatedBy(User lastUpdatedBy) {
+    modificationTracker.setLastUpdatedBy(lastUpdatedBy);
   }
 
 }

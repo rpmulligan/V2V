@@ -3,7 +3,8 @@ package interceptor;
 import java.util.Date;
 import java.util.Map;
 
-import model.TimeStamped;
+import model.modificationtracker.ModificationTracker;
+import model.modificationtracker.RowModificationTracker;
 
 import org.hibernate.HibernateException;
 import org.hibernate.event.spi.MergeEvent;
@@ -22,8 +23,8 @@ public class EntitySaveListener implements PersistEventListener, MergeEventListe
   public void onPersist(PersistEvent event) throws HibernateException {
     System.out.println("onPersist");
 
-    if (event.getObject() instanceof TimeStamped) {
-      TimeStamped entity = (TimeStamped) event.getObject();
+    if (event.getObject() instanceof ModificationTracker) {
+      RowModificationTracker entity = (RowModificationTracker) event.getObject();
       entity.setCreatedDate(new Date());
       entity.setLastUpdated(new Date());
     }
@@ -37,8 +38,8 @@ public class EntitySaveListener implements PersistEventListener, MergeEventListe
   @Override
   public void onMerge(MergeEvent event) throws HibernateException {
     System.out.println("onMerge");
-    if (event.getEntity() instanceof TimeStamped) {
-      TimeStamped entity = (TimeStamped) event.getEntity();
+    if (event.getEntity() instanceof RowModificationTracker) {
+      RowModificationTracker entity = (RowModificationTracker) event.getEntity();
       entity.setLastUpdated(new Date());
     }
   }

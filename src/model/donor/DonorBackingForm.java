@@ -1,8 +1,5 @@
 package model.donor;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import model.BloodAbo;
 import model.BloodRhd;
 import model.Gender;
-import model.User;
+import model.user.User;
 import viewmodel.donor.DonorViewModel;
 
 public class DonorBackingForm {
@@ -116,8 +113,8 @@ public class DonorBackingForm {
     return donor.getCountry();
   }
 
-  public String getContactNumber() {
-    return donor.getContactNumber();
+  public String getPhoneNumber() {
+    return donor.getPhoneNumber();
   }
 
   public Date getLastUpdated() {
@@ -200,8 +197,8 @@ public class DonorBackingForm {
     donor.setCountry(country);
   }
 
-  public void setContactNumber(String contactNumber) {
-    donor.setContactNumber(contactNumber);
+  public void setPhoneNumber(String contactNumber) {
+    donor.setPhoneNumber(contactNumber);
   }
 
   public void setLastUpdated(Date lastUpdated) {

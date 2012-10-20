@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import model.user.User;
+
 public class ProductBackingForm {
   private Product product;
   private List<String> types;
