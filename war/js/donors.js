@@ -13,6 +13,7 @@ function updateDonorGeneric(form, url) {
     url : url,
     data : donor,
     success : function(jsonResponse) {
+      console.log(jsonResponse);
       if (jsonResponse["success"] === true) {
         $.showMessage("Donor Updated Successfully!");
       } else {

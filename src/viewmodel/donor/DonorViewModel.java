@@ -1,4 +1,4 @@
-package viewmodel;
+package viewmodel.donor;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.Date;
 
 import model.BloodAbo;
 import model.BloodRhd;
-import model.Donor;
+import model.donor.Donor;
 
 import org.springframework.stereotype.Component;
 

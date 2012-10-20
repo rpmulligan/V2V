@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import model.CollectedSample;
-import model.Donor;
 import model.DonorType;
 import model.Location;
 import model.TestResult;
 import model.User;
+import model.donor.Donor;
 
 public class CollectionViewModel {
 	private CollectedSample collection;
@@ -100,6 +100,30 @@ public class CollectionViewModel {
 
   public Boolean getIsDeleted() {
     return collection.getIsDeleted();
+  }
+
+  public CollectedSample getCollection() {
+    return collection;
+  }
+
+  public List<Location> getAllCollectionSites() {
+    return allCollectionSites;
+  }
+
+  public List<Location> getAllCenters() {
+    return allCenters;
+  }
+
+  public void setCollection(CollectedSample collection) {
+    this.collection = collection;
+  }
+
+  public void setAllCollectionSites(List<Location> allCollectionSites) {
+    this.allCollectionSites = allCollectionSites;
+  }
+
+  public void setAllCenters(List<Location> allCenters) {
+    this.allCenters = allCenters;
   }
 
 }

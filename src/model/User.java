@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 public class User implements TimeStamped {
 
@@ -20,19 +23,30 @@ public class User implements TimeStamped {
   @Column(nullable=false)
   private Long id;
 
+  @Length(min=1, max=30)
+  @NotBlank
   @Column(length=30, unique=true, nullable=false)
   private String username;
 
+  @Length(min=1, max=255)
+  @NotBlank
   @Column(length=255, nullable=false)
   private String password;
 
+  @NotBlank
+  @Length(min=1, max=30)
   @Column(length=30, nullable=false)
   private String firstName;
+
+  @Length(max=30)
   @Column(length=30)
   private String middleName;
+
+  @Length(max=30)
   @Column(length=30)
   private String lastName;
 
+  @Length(max=255)
   @Column(length=255)
   private String emailId;
 
@@ -49,10 +63,10 @@ public class User implements TimeStamped {
   @Temporal(TemporalType.TIMESTAMP)
   private Date lastLogin;
 
+  private Boolean isDeleted;
+
   @Lob
   private String notes;
-
-  private Boolean isDeleted;
 
   public User() {
   }

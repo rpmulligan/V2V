@@ -1,12 +1,17 @@
-package model;
+package model.donor;
 
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import model.BloodAbo;
+import model.BloodRhd;
+import model.CollectedSample;
+import model.Gender;
+import model.User;
 
-@Generated(value="Dali", date="2012-10-18T17:54:50.429-0400")
+@Generated(value="Dali", date="2012-10-20T03:27:58.511-0400")
 @StaticMetamodel(Donor.class)
 public class Donor_ {
 	public static volatile SingularAttribute<Donor, Long> id;
@@ -25,9 +30,9 @@ public class Donor_ {
 	public static volatile SingularAttribute<Donor, String> contactNumber;
 	public static volatile SingularAttribute<Donor, Date> lastUpdated;
 	public static volatile SingularAttribute<Donor, Date> createdDate;
+	public static volatile SingularAttribute<Donor, User> createdBy;
+	public static volatile SingularAttribute<Donor, User> lastUpdatedBy;
 	public static volatile SingularAttribute<Donor, String> notes;
 	public static volatile SingularAttribute<Donor, Boolean> isDeleted;
 	public static volatile ListAttribute<Donor, CollectedSample> collectedSamples;
-	public static volatile SingularAttribute<Donor, User> createdBy;
-	public static volatile SingularAttribute<Donor, User> lastUpdatedBy;
 }

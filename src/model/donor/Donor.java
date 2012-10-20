@@ -1,4 +1,4 @@
-package model;
+package model.donor;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +16,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import model.BloodAbo;
+import model.BloodRhd;
+import model.CollectedSample;
+import model.Gender;
+import model.TimeStamped;
+import model.User;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+
 @Entity
 public class Donor implements TimeStamped {
 
@@ -24,25 +37,32 @@ public class Donor implements TimeStamped {
   @Column(nullable=false)
 	private Long id;
 
+  @NotBlank
   @Column(unique=true, length=30, nullable=false)
-	private String donorNumber;
+  private String donorNumber;
 
   @Column(length=30, nullable=false)
+  @Length(min=1, max=30)
 	private String firstName;
+
+  @Length(max=30)
   @Column(length=30)
   private String middleName;
+
+  @Length(max=30)
   @Column(length=30)
 	private String lastName;
 
   @Enumerated(EnumType.STRING)
 	private Gender gender;
-  
+
   @Enumerated(EnumType.STRING)
 	private BloodAbo bloodAbo;
 
   @Enumerated(EnumType.STRING)
   private BloodRhd bloodRhd;
 
+  @DateTimeFormat(pattern="mm/dd/yyyy")
   @Temporal(TemporalType.DATE)
 	private Date birthDate;
 
@@ -80,6 +100,11 @@ public class Donor implements TimeStamped {
   
 	public Donor() {
 	}
+
+  @InitBinder
+  protected void initBinder(WebDataBinder binder) {
+    binder.setValidator(new DonorBackingFormValidator());
+  }
 
   public Long getId() {
     return id;

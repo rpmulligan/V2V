@@ -1,4 +1,4 @@
-package model;
+package model.donor;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -7,9 +7,19 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import viewmodel.DonorViewModel;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import model.BloodAbo;
+import model.BloodRhd;
+import model.Gender;
+import model.User;
+import viewmodel.donor.DonorViewModel;
 
 public class DonorBackingForm {
+
+  @NotNull
+  @Valid
   private Donor donor;
   private List<String> bloodTypes;
 
@@ -21,14 +31,14 @@ public class DonorBackingForm {
     this.donor = donor;
   }
 
-  public void setBirthDate(String birthdDate) {
-    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-    try {
-      this.setBirthDate(formatter.parse(birthdDate));
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-  }
+//  public void setBirthDate(String birthdDate) {
+//    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+//    try {
+//      this.setBirthDate(formatter.parse(birthdDate));
+//    } catch (ParseException e) {
+//      e.printStackTrace();
+//    }
+//  }
 
   public void setBirthDate(Date birthDate) {
     donor.setBirthDate(birthDate);

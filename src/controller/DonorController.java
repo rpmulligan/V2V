@@ -6,17 +6,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
-import model.Donor;
-import model.DonorBackingForm;
+import model.donor.Donor;
+import model.donor.DonorBackingForm;
+import model.donor.DonorBackingFormValidator;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +36,7 @@ import repository.LocationRepository;
 import repository.RecordFieldsConfigRepository;
 import repository.UserRepository;
 import utils.ControllerUtil;
-import viewmodel.DonorViewModel;
+import viewmodel.donor.DonorViewModel;
 
 @Controller
 public class DonorController {
@@ -51,6 +57,11 @@ public class DonorController {
   private UserRepository userRepository;
 
   public DonorController() {
+  }
+
+  @InitBinder
+  protected void initBinder(WebDataBinder binder) {
+    binder.setValidator(new DonorBackingFormValidator(binder.getValidator()));
   }
 
   @RequestMapping("/donorsLandingPage")
@@ -83,7 +94,8 @@ public class DonorController {
   }
 
   @RequestMapping(value = "/editDonorFormGenerator", method = RequestMethod.GET)
-  public ModelAndView editDonorFormGenerator(Model model,
+  public ModelAndView editDonorFormGenerator(
+      Model model,
       @RequestParam(value = "donorNumber", required = false) String donorNumber,
       @RequestParam(value = "isDialog", required = false) String isDialog) {
 
@@ -93,10 +105,10 @@ public class DonorController {
     if (donorNumber != null) {
       form.setDonorNumber(donorNumber);
       Donor donor = donorRepository.findDonorByNumber(donorNumber);
-      if (donor != null)
-        form = new DonorBackingForm(donor);
-      else
-        form = new DonorBackingForm();
+      // if (donor != null)
+      // form = new DonorBackingForm(donor);
+      // else
+      form = new DonorBackingForm();
     }
     m.put("editDonorForm", form);
     m.put("isDialog", isDialog);
@@ -107,34 +119,43 @@ public class DonorController {
   }
 
   @RequestMapping(value = "/updateDonor", method = RequestMethod.POST)
-  public @ResponseBody
-  Map<String, ? extends Object> updateOrAddDonor(
-      @ModelAttribute("editDonorForm") DonorBackingForm form,
+  public ModelAndView updateOrAddDonor(
+      @Valid @ModelAttribute("editDonorForm") DonorBackingForm form,
       BindingResult result, Model model) {
 
-    boolean success = true;
-    String errMsg = "";
-    try {
-      Donor donor = form.getDonor();
-      donorRepository.updateOrAddDonor(donor);
-    } catch (EntityExistsException ex) {
-      // TODO: Replace with logger
-      System.err.println("Entity Already exists");
-      System.err.println(ex.getMessage());
-      success = false;
-      errMsg = "Donor Already Exists";
-    } catch (Exception ex) {
-      // TODO: Replace with logger
-      System.err.println("Internal Exception");
-      System.err.println(ex.getMessage());
-      success = false;
-      errMsg = "Internal Server Error";
+    if (result.hasErrors()) {
+      for (ObjectError objectError : result.getAllErrors()) {
+        System.out.println("error");
+        System.out.println(objectError.getDefaultMessage());
+      }
+      Map<String, Object> m = model.asMap();
+      m.put("success", false);
+      ModelAndView mv = new ModelAndView("editDonorForm");
+      m.put("form", result.getTarget());
+      m.put("errMsg", "Validation Worked");
+      mv.addObject("model", m);
+      return mv;
     }
-
-    Map<String, Object> m = new HashMap<String, Object>();
-    m.put("success", success);
-    m.put("errMsg", errMsg);
-    return m;
+    return null;
+    // boolean success = true;
+    // String errMsg = "";
+    // try {
+    // Donor donor = form.getDonor();
+    // donorRepository.updateOrAddDonor(donor);
+    // } catch (EntityExistsException ex) {
+    // ex.printStackTrace();
+    // success = false;
+    // errMsg = "Donor Already Exists";
+    // } catch (Exception ex) {
+    // ex.printStackTrace();
+    // success = false;
+    // errMsg = "Internal Server Error";
+    // }
+    //
+    // Map<String, Object> m = new HashMap<String, Object>();
+    // m.put("success", success);
+    // m.put("errMsg", errMsg);
+    // return m;
   }
 
   @RequestMapping(value = "/deleteDonor", method = RequestMethod.POST)
@@ -159,7 +180,7 @@ public class DonorController {
     m.put("errMsg", errMsg);
     return m;
   }
-  
+
   @RequestMapping(value = "/addDonor", method = RequestMethod.POST)
   public ModelAndView addDonor(
       @ModelAttribute("editDonorForm") DonorBackingForm form,

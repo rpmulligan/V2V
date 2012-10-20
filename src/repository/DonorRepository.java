@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.CollectedSample;
-import model.Donor;
+import model.donor.Donor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;

@@ -53,8 +53,9 @@
 			</div>
 		</c:if>
 		<div>
-			<form:label path="donorNumber">${model.donorIDDisplayName}</form:label>
+			<form:label path="donorNumber">Donor Number</form:label>
 			<form:input path="donorNumber" />
+			<form:errors path="donorNumber"></form:errors>
 		</div>
 		<div>
 			<form:label path="firstName">${model.firstNameDisplayName}</form:label>
@@ -78,7 +79,7 @@
 			</form:select>
 			<label for="bloodAbo">Blood Group</label> <select
 				id="editDonorFormBloodGroup-${formId}" name="bloodAbo">
-				<option value="A+">A+</option>
+				<option value="A">A+</option>
 				<option value="A-">A-</option>
 				<option value="B+">B+</option>
 				<option value="B-">B-</option>

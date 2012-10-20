@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import model.donor.Donor;
+
 @Entity
 public class CollectedSample {
   @Id
