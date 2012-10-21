@@ -18,7 +18,6 @@ textarea {
 	border: 2px solid #dadada;
 	border-radius: 7px;
 	font-size: 20px;
-	margin-left: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-right: 5px;
@@ -60,8 +59,15 @@ select:focus {
 }
 
 .editDialog > div > label {
-	margin-left: 30px;
-	margin-right: 10px;
+	width: 150px;
+	float: left;
+}
+
+.editDialog > div > input {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .ui-datepicker {
@@ -115,6 +121,13 @@ h2 {
 	color: #4253A7;
 	margin-top: 21px;
 	font-family: arial;
+}
+
+.error {
+	color: #F02929;
+	position: relative;
+	display: block;
+	padding-left: 150px;
 }
 
 .actionButtonsPanel {
