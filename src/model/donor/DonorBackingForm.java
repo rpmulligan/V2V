@@ -7,9 +7,12 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import model.BloodAbo;
 import model.BloodRhd;
 import model.Gender;
+import model.address.ContactInformation;
 import model.user.User;
 import viewmodel.donor.DonorViewModel;
 
@@ -28,14 +31,10 @@ public class DonorBackingForm {
     this.donor = donor;
   }
 
-//  public void setBirthDate(String birthdDate) {
-//    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-//    try {
-//      this.setBirthDate(formatter.parse(birthdDate));
-//    } catch (ParseException e) {
-//      e.printStackTrace();
-//    }
-//  }
+  @DateTimeFormat(pattern="mm/dd/yyyy")
+  public Date getBirthDate() {
+    return donor.getBirthDate();
+  }
 
   public void setBirthDate(Date birthDate) {
     donor.setBirthDate(birthDate);
@@ -91,10 +90,6 @@ public class DonorBackingForm {
 
   public BloodRhd getBloodRhd() {
     return donor.getBloodRhd();
-  }
-
-  public Date getBirthDate() {
-    return donor.getBirthDate();
   }
 
   public String getAddress() {
@@ -227,5 +222,21 @@ public class DonorBackingForm {
 
   public String toString() {
     return donor.toString();
+  }
+
+  public ContactInformation getContactInformation() {
+    return donor.getContactInformation();
+  }
+
+  public void setContactInformation(ContactInformation contactInformation) {
+    donor.setContactInformation(contactInformation);
+  }
+
+  public String getZipcode() {
+    return donor.getZipcode();
+  }
+
+  public void setZipcode(String zipcode) {
+    donor.setZipcode(zipcode);
   }
 }

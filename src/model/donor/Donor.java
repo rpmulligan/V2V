@@ -54,16 +54,16 @@ public class Donor implements ModificationTracker {
   @Column(length=30)
 	private String lastName;
 
-  @Length(max=30)
   @Enumerated(EnumType.STRING)
+  @Column(length=30)
 	private Gender gender;
 
-  @Length(max=30)
   @Enumerated(EnumType.STRING)
+  @Column(length=30)
 	private BloodAbo bloodAbo;
 
-  @Length(max=30)
   @Enumerated(EnumType.STRING)
+  @Column(length=30)
   private BloodRhd bloodRhd;
 
   @DateTimeFormat(pattern="mm/dd/yyyy")
@@ -85,6 +85,8 @@ public class Donor implements ModificationTracker {
   private List<CollectedSample> collectedSamples;
   
 	public Donor() {
+	  contactInformation = new ContactInformation();
+	  modificationTracker = new RowModificationTracker();
 	}
 
   public Long getId() {
@@ -247,10 +249,6 @@ public class Donor implements ModificationTracker {
 
   public String getPhoneNumber() {
     return contactInformation.getPhoneNumber();
-  }
-
-  public int hashCode() {
-    return contactInformation.hashCode();
   }
 
   public void setPhoneNumber(String phoneNumber) {

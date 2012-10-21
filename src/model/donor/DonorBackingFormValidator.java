@@ -2,9 +2,12 @@ package model.donor;
 
 import java.util.Arrays;
 
+import org.apache.commons.beanutils.locale.LocaleBeanUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 public class DonorBackingFormValidator implements Validator {
 
@@ -21,6 +24,8 @@ public class DonorBackingFormValidator implements Validator {
 
   @Override
   public void validate(Object obj, Errors errors) {
-    validator.validate(obj, errors);
+    if (obj == null || validator == null)
+      return;
+    ValidationUtils.invokeValidator(validator, obj, errors);
   }
 }

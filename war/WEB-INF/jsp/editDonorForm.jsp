@@ -40,12 +40,13 @@
   });
   function updateDonor() {
     addNewDonor($("#editDonorForm-" + '<c:out value="${formId}"/>')[0]);
-    $("#editDonorForm-" + '<c:out value="${formId}"/>')[0].reset();
+    //$("#editDonorForm-" + '<c:out value="${formId}"/>')[0].reset();
   }
 </script>
 
-<form:form method="POST" commandName="editDonorForm"
+<form:form method="POST" commandName="editDonorForm" modelAttribute="editDonorForm"
 	id="editDonorForm-${formId}">
+	<form:errors path="*" ></form:errors>
 	<div class="editDialog">
 		<c:if test="${model.isDialog != 'yes' }">
 			<div>
@@ -55,21 +56,27 @@
 		<div>
 			<form:label path="donorNumber">Donor Number</form:label>
 			<form:input path="donorNumber" />
-			<form:errors path="donorNumber"></form:errors>
+			<form:errors path="donor.donorNumber" ></form:errors>
 		</div>
 		<div>
 			<form:label path="firstName">${model.firstNameDisplayName}</form:label>
 			<form:input path="firstName" />
+			<form:errors path="donor.firstName"></form:errors>
+		</div>
+		<div>
 			<form:label path="middleName">Middle Name</form:label>
 			<form:input path="middleName" />
+			<form:errors path="middleName"></form:errors>
 		</div>
 		<div>
 			<form:label path="lastName">${model.lastNameDisplayName}</form:label>
 			<form:input path="lastName" />
+			<form:errors path="lastName"></form:errors>
 		</div>
 		<div>
 			<form:label path="birthDate">${model.dobDisplayName}</form:label>
 			<form:input path="birthDate" id="updateDonorBirthDate-${formId}" />
+			<form:errors path="birthDate"></form:errors>
 		</div>
 		<div>
 			<form:label path="gender">${model.genderDisplayName}</form:label>
@@ -77,6 +84,9 @@
 				<form:option value="male" label="Male" />
 				<form:option value="female" label="Female" />
 			</form:select>
+			<form:errors path="gender"></form:errors>
+		</div>
+		<div>
 			<label for="bloodAbo">Blood Group</label> <select
 				id="editDonorFormBloodGroup-${formId}" name="bloodAbo">
 				<option value="A">A+</option>
@@ -88,6 +98,7 @@
 				<option value="O+">O+</option>
 				<option value="O-">O-</option>
 			</select>
+			<form:errors path="bloodAbo"></form:errors>
 		</div>
 		<div>
 			<form:label path="address"
@@ -96,18 +107,27 @@
 			</form:label>
 			<form:textarea path="address" id="donorAddressInputBox"
 				maxlength="255" />
+			<form:errors path="address"></form:errors>
 		</div>
 		<div>
 			<form:label path="city">City</form:label>
 			<form:input path="city" />
+			<form:errors path="city"></form:errors>
+		</div>
+		<div>			
 			<form:label path="state">State</form:label>
 			<form:input path="state" />
-			<form:label path="country">Country</form:label>
-			<form:input path="country" />
+			<form:errors path="state"></form:errors>
 		</div>
 		<div>
-			<form:label path="contactNumber">Contact Number</form:label>
-			<form:input path="contactNumber" />
+			<form:label path="country">Country</form:label>
+			<form:input path="country" />
+			<form:errors path="country"></form:errors>
+		</div>
+		<div>
+			<form:label path="phoneNumber">Contact Number</form:label>
+			<form:input path="phoneNumber" />
+			<form:errors path="phoneNumber"></form:errors>
 		</div>
 		<div>
 			<form:label path="notes"
@@ -116,6 +136,7 @@
 			</form:label>
 			<form:textarea path="notes" id="donorCommentsInputBox"
 				maxlength="255" />
+			<form:errors path="notes"></form:errors>
 		</div>
 		<c:if test="${model.isDialog != 'yes' }">
 			<div>
