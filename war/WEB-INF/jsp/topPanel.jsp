@@ -9,32 +9,42 @@
 </div>
 <div class="headlink">
 	<p class="topPanelUsername">Logged in as ${model.user.username}</p>
-	<a href="logout.html"><span
-				class="ui-icon ui-icon-locked" style="display: inline-block;"></span>Sign out</a>
+	<a href="logout.html"><span class="ui-icon ui-icon-locked"
+		style="display: inline-block;"></span>Sign out</a>
 </div>
 
-<div id="topPanelTabs" class="topPanelTabs">
+<div id="topPanelTabs"
+	class="topPanelTabs">
 	<ul id="topTabs">
-		<li class="topPanelTab"><a href="#homeLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#homeLandingPageContent" title="Home"><span
 				class="ui-icon ui-icon-home" style="display: inline-block;"></span>Home</a></li>
-		<li class="topPanelTab"><a href="#donorsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#donorsLandingPageContent" title="Donors"><span
 				class="ui-icon ui-icon-person" style="display: inline-block;"></span>Donors</a></li>
-		<li class="topPanelTab"><a href="#collectionsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#collectionsLandingPageContent" title="Collections"><span
 				class="ui-icon ui-icon-disk" style="display: inline-block;"></span>Collections</a></li>
-		<li class="topPanelTab"><a href="#testResultsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#testResultsLandingPageContent" title="Test Results"><span
 				class="ui-icon ui-icon-bookmark" style="display: inline-block;"></span>Test
 				Results</a></li>
-		<li class="topPanelTab"><a href="#productsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#productsLandingPageContent" title="Products"><span
 				class="ui-icon ui-icon-cart" style="display: inline-block;"></span>Products</a></li>
-		<li class="topPanelTab"><a href="#requestsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#requestsLandingPageContent" title="Requests"><span
 				class="ui-icon ui-icon-tag" style="display: inline-block;"></span>Requests</a></li>
-		<li class="topPanelTab"><a href="#usageLandingPageContent"><span
-				class="ui-icon ui-icon-transferthick-e-w" style="display: inline-block;"></span>Usage</a></li>
-		<li class="topPanelTab"><a href="#reportsLandingPageContent"><span
+		<li class="topPanelTab"><a
+			href="#usageLandingPageContent" title="Usage"><span
+				class="ui-icon ui-icon-transferthick-e-w"
+				style="display: inline-block;"></span>Usage</a></li>
+		<li class="topPanelTab"><a
+			href="#reportsLandingPageContent" title="Reports"><span
 				class="ui-icon ui-icon-clipboard" style="display: inline-block;"></span>Reports</a></li>
 	</ul>
 
-	<div id="homeLandingPageContent" class="centerContent">
+	<div id="homeLandingPageContent">
 		<h3>Welcome to Vein-To-Vein</h3>
 		<div class="infoMessage">
 			Vein-to-Vein (V2V) is a system to monitor and analyze data from blood

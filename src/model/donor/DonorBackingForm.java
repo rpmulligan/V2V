@@ -7,8 +7,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import model.BloodAbo;
 import model.BloodRhd;
 import model.CustomDateFormatter;

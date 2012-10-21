@@ -1,12 +1,10 @@
 package model.donor;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import model.CustomDateFormatter;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 

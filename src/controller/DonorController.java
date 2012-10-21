@@ -118,48 +118,47 @@ public class DonorController {
     return mv;
   }
 
-  @RequestMapping(value = "/updateDonor", method = RequestMethod.POST)
-  public ModelAndView updateOrAddDonor(
+  @RequestMapping(value = "/addDonor", method = RequestMethod.POST)
+  public ModelAndView addDonor(
       @ModelAttribute("editDonorForm") @Valid DonorBackingForm form,
       BindingResult result, Model model) {
 
     ModelAndView mv = new ModelAndView("editDonorForm");
+    boolean success = false;
+    String message = "";
     Map<String, Object> m = new HashMap<String, Object>();
     if (form == null) {
       form = new DonorBackingForm();
-      m.put("editDonorForm", form);
     } else {
       if (result.hasErrors()) {
-        for (FieldError objectError : result.getFieldErrors()) {
-          System.out.println("error");
-          System.out.println(objectError.getObjectName());
-          System.out.println(objectError.getField());
-          System.out.println(objectError.getCode());
-          System.out.println(objectError.getDefaultMessage());
-        }
-        if (form == result.getTarget())
-          System.out.println("same");
-        m.put("editDonorForm", result.getTarget());
+        success = false;
+        message = "Please fix the errrors noted above";
       } else {
-        DonorBackingForm finalForm = null;
         try {
           Donor donor = form.getDonor();
-          donorRepository.updateOrAddDonor(donor);
-          finalForm = new DonorBackingForm();
+          donorRepository.addDonor(donor);
+          form = new DonorBackingForm();
+          success = true;
+          message = "Donor Successfully Added";
         } catch (EntityExistsException ex) {
           ex.printStackTrace();
-          finalForm = (DonorBackingForm) result.getTarget();
+          success = false;
+          message = "Donor Already exists.";
         } catch (Exception ex) {
           ex.printStackTrace();
-          finalForm = (DonorBackingForm) result.getTarget();
-        } finally {
-          m.put("editDonorForm", finalForm);
+          success = false;
+          message = "Internal Error. Please try again or report a Problem.";
         }
       }
     }
-    // to ensure custom field names are displayed in the form
+
+    m.put("editDonorForm", form);
+    m.put("success", success);
+    m.put("errorMessage", message);
+
     ControllerUtil.addDonorDisplayNamesToModel(m, displayNamesRepository);
     mv.addObject("model", m);
+
     return mv;
   }
 
@@ -184,14 +183,6 @@ public class DonorController {
     m.put("success", success);
     m.put("errMsg", errMsg);
     return m;
-  }
-
-  @RequestMapping(value = "/addDonor", method = RequestMethod.POST)
-  public ModelAndView addDonor(
-      @ModelAttribute("editDonorForm") DonorBackingForm form,
-      BindingResult result, Model m) {
-    ModelAndView modelAndView = new ModelAndView("addDonor");
-    return modelAndView;
   }
 
   @RequestMapping(value = "/findDonorFormGenerator", method = RequestMethod.GET)

@@ -192,4 +192,9 @@ public class DonorRepository {
     }
     return collections;
   }
+
+  public void addDonor(Donor donor) {
+    em.persist(donor);
+    em.flush();
+  }
 }

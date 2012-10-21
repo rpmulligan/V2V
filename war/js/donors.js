@@ -1,5 +1,5 @@
 function addNewDonor(form, resultDivId) {
-  updateDonorGeneric(form, resultDivId, "updateDonor.html");
+  updateDonorGeneric(form, resultDivId, "addDonor.html");
 }
 
 function updateExistingDonor(form, resultDivId) {
@@ -12,7 +12,7 @@ function updateDonorGeneric(form, resultDivId, url) {
     type : "POST",
     url : url,
     data : donor,
-    success : function(jsonResponse) {
+    success : function(jsonResponse, data, data1, data2) {
       $("#" + resultDivId).html(jsonResponse);
     }
   });
