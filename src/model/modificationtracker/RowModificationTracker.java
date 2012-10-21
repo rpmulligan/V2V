@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 import model.user.User;
 
 @Embeddable
-public class RowModificationTracker {
+public class RowModificationTracker implements ModificationTracker {
 
   @Temporal(TemporalType.TIMESTAMP)
   private Date lastUpdated;

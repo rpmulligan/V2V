@@ -59,10 +59,10 @@ public class DonorController {
   public DonorController() {
   }
 
-//  @InitBinder
-//  protected void initBinder(WebDataBinder binder) {
-//    binder.setValidator(new DonorBackingFormValidator(binder.getValidator()));
-//  }
+  @InitBinder
+  protected void initBinder(WebDataBinder binder) {
+    binder.setValidator(new DonorBackingFormValidator(binder.getValidator()));
+  }
 
   @RequestMapping("/donorsLandingPage")
   public ModelAndView getDonorsLandingPage(HttpServletRequest request) {

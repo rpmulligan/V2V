@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import model.BloodAbo;
 import model.BloodRhd;
+import model.CustomDateFormatter;
 import model.Gender;
 import model.address.ContactInformation;
 import model.user.User;
@@ -23,6 +24,8 @@ public class DonorBackingForm {
   private Donor donor;
   private List<String> bloodTypes;
 
+  private String birthDate;
+
   public DonorBackingForm() {
     donor = new Donor();
   }
@@ -31,13 +34,13 @@ public class DonorBackingForm {
     this.donor = donor;
   }
 
-  @DateTimeFormat(pattern="mm/dd/yyyy")
-  public Date getBirthDate() {
-    return donor.getBirthDate();
+  public String getBirthDate() {
+    return birthDate;
   }
 
-  public void setBirthDate(Date birthDate) {
-    donor.setBirthDate(birthDate);
+  public void setBirthDate(String birthDate) {
+    this.birthDate = birthDate;
+    donor.setBirthDate(CustomDateFormatter.getDateFromString(birthDate));
   }
 
   public List<String> getBloodTypes() {
